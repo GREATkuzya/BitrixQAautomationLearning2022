@@ -1,4 +1,5 @@
 ﻿using atFrameWork2.SeleniumFramework;
+using ATframework3demo.TestCases;
 
 namespace ATframework3demo.PageObjects
 {
@@ -7,7 +8,8 @@ namespace ATframework3demo.PageObjects
     /// </summary>
     public class NewsPostForm
     {
-       // const string NewsTime = "Жопа";
+        DateTime NewsTime = DateTime.Now;
+
         internal bool IsRecipientPresent(string recipientName)
         {
             //проверить наличие шильдика
@@ -16,10 +18,18 @@ namespace ATframework3demo.PageObjects
             return recipientsArea.AssertTextContains(recipientName, default);
         }
 
+        internal bool IsNewsWitFileAdded(string NewsTime)
+        {
+            //проверка что новость с текущим временем создалась
+            var NewsCheck = new WebItem("//div[@id='log_internal_container']",
+                "Проверка присутствия переменной в новостях");
+            return NewsCheck.AssertTextContains(NewsTime, "Новость не найдена", default);
+        }
+
         internal NewsPostForm AddNewsTitle()
         {
             // добавляет в заголовок новости текущее время
-            var NewsTime = DateTime.Now;
+            //var NewsTime = DateTime.Now;
             var NewsDeskFrame = new WebItem("//iframe[@class='bx-editor-iframe']", "ФРЕЙМ написать сообщение");
             // переключение во фрейм, отправление переменной, выход из фрейма
             NewsDeskFrame.SwitchToFrame();
@@ -29,14 +39,14 @@ namespace ATframework3demo.PageObjects
             return new NewsPostForm();
         }
 
-      
+     
         internal NewsPostForm AddFiles()
         {
             //добавляет файл в инпут
             var BtnAddFiles = new WebItem("//div[@class='disk-file-control-panel-file-wrap']/input[@type='file']", "загрузка файла");
             BtnAddFiles.SendKeys("C:/Windows/Web/Wallpaper/Theme1/img4.jpg");
             //BtnAddFiles.SendKeys("https://static.mir-kubikov.ru/upload/medialibrary/000dk/60242_Feature2.jpg");  //не работает на картинку в вебе
-            Thread.Sleep(1000); //все ломается если не подождать здесь
+            Thread.Sleep(2000); //все ломается если не подождать здесь
             return new NewsPostForm();
         }
         internal NewsPostForm SaveNews()
@@ -45,18 +55,10 @@ namespace ATframework3demo.PageObjects
             var BtnSaveNews = new WebItem("//button[@id='blog-submit-button-save']", 
                 "Кнопка отправить новость");
             BtnSaveNews.Click();
-            Thread.Sleep(1000); //все ломается если не подождать здесь
+            Thread.Sleep(2000); //все ломается если не подождать здесь
             return new NewsPostForm();
         }
 
-        internal bool IsNewsWitFileAdded(string NewsTime)
-        {
-            //проверка что новость с текущим временем создалась
-            var NewsCheck = new WebItem("//div[@id='log_internal_container']", 
-                "Проверка присутствия переменной в новостях");
-            return NewsCheck.AssertTextContains(NewsTime, default);
-         
-        }
-
+       
     }
 }

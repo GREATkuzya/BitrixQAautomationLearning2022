@@ -17,10 +17,11 @@ namespace ATframework3demo.TestCases
         }
         void CreateNewsWithFile(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
+            // DateTime NewsTime = DateTime.Now;
             // открыть новости
             // нажать на ввести сообщение
             // ввести сообщение
-            // прикрепить  файл
+            // прикрепить файл
             // нажать отправить
             // Проверить, что новость отображается
 
@@ -30,8 +31,8 @@ namespace ATframework3demo.TestCases
                 .AddPost()
                 .AddNewsTitle()
                 .AddFiles()
-                .SaveNews();
-                //.IsNewsWitFileAdded(string NewsTime);
+                .SaveNews()
+                .IsNewsWitFileAdded("Жопа");
         }
     }
 }
