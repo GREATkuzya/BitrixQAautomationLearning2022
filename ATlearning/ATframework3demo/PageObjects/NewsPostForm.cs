@@ -7,6 +7,7 @@ namespace ATframework3demo.PageObjects
     /// </summary>
     public class NewsPostForm
     {
+       // const string NewsTime = "Жопа";
         internal bool IsRecipientPresent(string recipientName)
         {
             //проверить наличие шильдика
@@ -18,46 +19,44 @@ namespace ATframework3demo.PageObjects
         internal NewsPostForm AddNewsTitle()
         {
             // добавляет в заголовок новости текущее время
-            //var AddNewsDesc = new WebItem("//div[@id='microoPostFormLHE_blogPostForm']", "Раскрывает поле Написать сообщение");
-            //AddNewsDesc.Click();
-            //iframe[@class='bx-editor-iframe']
-            //NewsDeskFrame.SwitchToFrame();
             var NewsTime = DateTime.Now;
             var NewsDeskFrame = new WebItem("//iframe[@class='bx-editor-iframe']", "ФРЕЙМ написать сообщение");
+            // переключение во фрейм, отправление переменной, выход из фрейма
             NewsDeskFrame.SwitchToFrame();
-            NewsDeskFrame.Click();
-            NewsDeskFrame.SendKeys("NewsTime");
+            var NewsDescriptionField = new WebItem("//body[@contenteditable='true']", "поле фрейма написать сообщение");
+            NewsDescriptionField.SendKeys("Пост с картинкой, который создался " + NewsTime);
             DriverActions.SwitchToDefaultContent();
             return new NewsPostForm();
         }
 
-        internal bool IsNewsWitFileAdded()
+      
+        internal NewsPostForm AddFiles()
         {
-           //проверка что новость с текущим временем создалась
-            throw new NotImplementedException();
-        }
-
-        internal NewsPostForm AddNewsDeskription()
-        {
-            var NewsDescription = new WebItem("", "Добавляет заголовок новости");
-           // throw new NotImplementedException();
+            //добавляет файл в инпут
+            var BtnAddFiles = new WebItem("//div[@class='disk-file-control-panel-file-wrap']/input[@type='file']", "загрузка файла");
+            BtnAddFiles.SendKeys("C:/Windows/Web/Wallpaper/Theme1/img4.jpg");
+            //BtnAddFiles.SendKeys("https://static.mir-kubikov.ru/upload/medialibrary/000dk/60242_Feature2.jpg");  //не работает на картинку в вебе
+            Thread.Sleep(1000); //все ломается если не подождать здесь
             return new NewsPostForm();
         }
-
         internal NewsPostForm SaveNews()
         {
             //сохраняет новость по кнопке отправить
-            var BtnSaveNews = new WebItem("//button[@id='blog-submit-button-save']", "Кнопка отправить новость");
+            var BtnSaveNews = new WebItem("//button[@id='blog-submit-button-save']", 
+                "Кнопка отправить новость");
             BtnSaveNews.Click();
+            Thread.Sleep(1000); //все ломается если не подождать здесь
             return new NewsPostForm();
         }
 
-        internal NewsPostForm AddFiles()
+        internal bool IsNewsWitFileAdded(string NewsTime)
         {
-            //добавляет файл
-            var BtnAddFiles = new WebItem("//div[@class='disk-file-control-panel-file-wrap']/input[@type='file']", "загрузка файла");
-            BtnAddFiles.SendKeys("C:/Windows/Web/Wallpaper/Theme1/img1.jpg");
-            return new NewsPostForm();
+            //проверка что новость с текущим временем создалась
+            var NewsCheck = new WebItem("//div[@id='log_internal_container']", 
+                "Проверка присутствия переменной в новостях");
+            return NewsCheck.AssertTextContains(NewsTime, default);
+         
         }
+
     }
 }

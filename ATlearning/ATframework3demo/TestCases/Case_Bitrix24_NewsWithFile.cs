@@ -28,11 +28,10 @@ namespace ATframework3demo.TestCases
                 .LeftMenu
                 .OpenNews()
                 .AddPost()
-                //.AddNewsTitle()
-                //.AddNewsDeskription()
+                .AddNewsTitle()
                 .AddFiles()
                 .SaveNews();
-                //.IsNewsWitFileAdded();
+                //.IsNewsWitFileAdded(string NewsTime);
         }
     }
 }
