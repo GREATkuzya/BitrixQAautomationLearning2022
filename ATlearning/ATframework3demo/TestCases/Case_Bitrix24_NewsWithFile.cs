@@ -1,4 +1,8 @@
 ﻿using atFrameWork2.BaseFramework;
+using atFrameWork2.BaseFramework.LogTools;
+using atFrameWork2.PageObjects;
+using atFrameWork2.SeleniumFramework;
+using ATframework3demo.PageObjects;
 
 namespace ATframework3demo.TestCases
 {
@@ -13,20 +17,22 @@ namespace ATframework3demo.TestCases
         }
         void CreateNewsWithFile(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
+            // открыть новости
             // нажать на ввести сообщение
             // ввести сообщение
-            // нажать на файл
-            // выбрать файл
-            // нажать открыть
+            // прикрепить  файл
             // нажать отправить
+            // Проверить, что новость отображается
 
             homePage
                 .LeftMenu
                 .OpenNews()
                 .AddPost()
-                .AddNewsTitle()
+                //.AddNewsTitle()
+                //.AddNewsDeskription()
                 .AddFiles()
                 .SaveNews();
+                //.IsNewsWitFileAdded();
         }
     }
 }

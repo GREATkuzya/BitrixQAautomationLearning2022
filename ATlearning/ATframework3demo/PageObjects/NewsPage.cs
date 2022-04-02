@@ -9,5 +9,7 @@
             btnPostCreate.Click();
             return new NewsPostForm();
         }
+
+        
     }
 }
