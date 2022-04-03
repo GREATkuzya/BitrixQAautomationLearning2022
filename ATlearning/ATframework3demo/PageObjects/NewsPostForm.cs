@@ -8,7 +8,7 @@ namespace ATframework3demo.PageObjects
     /// </summary>
     public class NewsPostForm
     {
-        DateTime NewsTime = DateTime.Now;
+        //DateTime NewsTime = DateTime.Now;
 
         internal bool IsRecipientPresent(string recipientName)
         {
@@ -20,13 +20,13 @@ namespace ATframework3demo.PageObjects
 
         internal bool IsNewsWitFileAdded(string NewsTime)
         {
-            //проверка что новость с текущим временем создалась
-            var NewsCheck = new WebItem("//div[@id='log_internal_container']",
+            //проверка что новость с текущим временем создалась(попробовал применить интерполяцию)
+            var NewsCheck = new WebItem($"//div[contains(text(), 'Пост с картинкой, который создался {NewsTime}')]",
                 "Проверка присутствия переменной в новостях");
             return NewsCheck.AssertTextContains(NewsTime, "Новость не найдена", default);
         }
 
-        internal NewsPostForm AddNewsTitle()
+        internal NewsPostForm AddNewsTitle(string NewsTime)
         {
             // добавляет в заголовок новости текущее время
             //var NewsTime = DateTime.Now;

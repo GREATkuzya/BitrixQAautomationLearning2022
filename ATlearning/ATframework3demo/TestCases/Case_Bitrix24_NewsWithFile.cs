@@ -17,7 +17,9 @@ namespace ATframework3demo.TestCases
         }
         void CreateNewsWithFile(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
-            // DateTime NewsTime = DateTime.Now;
+            DateTime NewsTimeToPost = DateTime.Now;
+            string NewsTime = NewsTimeToPost.ToString(); //так создалось, по другому не хотело
+            
             // открыть новости
             // нажать на ввести сообщение
             // ввести сообщение
@@ -26,13 +28,13 @@ namespace ATframework3demo.TestCases
             // Проверить, что новость отображается
 
             homePage
-                .LeftMenu
-                .OpenNews()
-                .AddPost()
-                .AddNewsTitle()
-                .AddFiles()
-                .SaveNews()
-                .IsNewsWitFileAdded("Жопа");
+                .LeftMenu     // метод делали на лекции
+                .OpenNews()   // метод делали на лекции
+                .AddPost()    // тоже на лекции
+                .AddNewsTitle(NewsTime) // вставляю переменную с датойвременем в название
+                .AddFiles() // Добавляю файл из директории винды 10, который должен быть у всех
+                .SaveNews() // жму на кнопку отправить
+                .IsNewsWitFileAdded(NewsTime); // проверяю добавился ли текст с переменной в пост
         }
     }
 }
