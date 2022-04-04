@@ -19,14 +19,7 @@ namespace ATframework3demo.PageObjects
             return recipientsArea.AssertTextContains(recipientName, default);
         }
 
-        internal bool IsAnyonePresent(string recipientName)
-        {
-            //проверить наличие получатлей
-            var recipientsArea = new atFrameWork2.SeleniumFramework.WebItem("//div[@id='entity-selector-oPostFormLHE_blogPostForm']//span[@class='ui-tag-selector-add-button-caption' and contains(text(), 'Добавить сотрудников, группы или отделы')]",
-                "Область получателей поста");
-            return recipientsArea.AssertTextContains(recipientName, default);
-        }
-
+     
         internal bool IsNewsWitFileAdded(string NewsTime)
         {
             //проверка что новость с текущим временем создалась(попробовал применить интерполяцию)

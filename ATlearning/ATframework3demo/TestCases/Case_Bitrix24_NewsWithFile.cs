@@ -23,7 +23,7 @@ namespace ATframework3demo.TestCases
             string FileName = "img4";
             string assertPhrase = "Добавить сотрудников, группы или отделы";
             // разные сценарии кейса если стоит или не стоит получатель
-            if (homePage.LeftMenu.OpenNews().AddPost().IsAnyonePresent(assertPhrase) == true)
+            if (homePage.LeftMenu.OpenNews().AddPost().IsRecipientPresent(assertPhrase) == true)
             {
 
                 homePage
@@ -34,7 +34,7 @@ namespace ATframework3demo.TestCases
                     .AddNewsTitle(NewsTime) // вставляю переменную с датойвременем в название
                     .AddFiles(FileAddr) // Добавляю файл из директории винды 10, который должен быть у всех
                     .SaveNews() // жму на кнопку отправить
-                  //.IsNewsWitFileAdded(NewsTime) // проверяю добавился ли текст с переменной в пост
+                     //.IsNewsWitFileAdded(NewsTime) // проверяю добавился ли текст с переменной в пост
                     .IsFileAttached(FileName); // проверяю есть ли файл по наличию текстового имени файла
             }
           
