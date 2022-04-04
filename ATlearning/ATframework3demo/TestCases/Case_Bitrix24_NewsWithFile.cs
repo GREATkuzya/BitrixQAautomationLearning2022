@@ -21,44 +21,34 @@ namespace ATframework3demo.TestCases
             string NewsTime = NewsTimeToPost.ToString(); //так создалось, по другому не хотело
             string FileAddr = "C:/Windows/Web/Wallpaper/Theme1/img4.jpg";
             string FileName = "img4";
-            string assertPhrase = "Всем сотрудникам";
-            //Подготовка к кейсу, если галочка снята, то надо её установить обратно
-            if (homePage.LeftMenu.OpenNews().AddPost().IsRecipientPresent(assertPhrase) == false)
+            string assertPhrase = "Добавить сотрудников, группы или отделы";
+            // разные сценарии кейса если стоит или не стоит получатель
+            if (homePage.LeftMenu.OpenNews().AddPost().IsAnyonePresent(assertPhrase) == true)
             {
+
                 homePage
-                    .LeftMenu
-                    .OpenSettings()
-                    .EnableDefaultSendToAll()
-                    .Save();
-
-                bool isAllRecipientsDisplayed2 = homePage
-                    .LeftMenu
-                    .OpenNews()
-                    .AddPost()
-                    .IsRecipientPresent(assertPhrase);
-
-                if (!isAllRecipientsDisplayed2)
-                {
-                    Log.Error("Не Отображается 'Всем сотрудникам' в получателях поста," +
-                        " но при этом галочка в настройках установлена");
-                }
+                    .LeftMenu     // Левое меню
+                    .OpenNews()   // Клик в новости
+                    .AddPost()    // Клик в поле новости
+                    .EnableSendToAll() // включить адресацию всем сотрудникам
+                    .AddNewsTitle(NewsTime) // вставляю переменную с датойвременем в название
+                    .AddFiles(FileAddr) // Добавляю файл из директории винды 10, который должен быть у всех
+                    .SaveNews() // жму на кнопку отправить
+                  //.IsNewsWitFileAdded(NewsTime) // проверяю добавился ли текст с переменной в пост
+                    .IsFileAttached(FileName); // проверяю есть ли файл по наличию текстового имени файла
             }
-            // открыть новости
-            // нажать на ввести сообщение
-            // ввести сообщение
-            // прикрепить файл
-            // нажать отправить
-            // Проверить, что новость отображается
+          
+            else
 
-            homePage
-                .LeftMenu     // метод делали на лекции
-                .OpenNews()   // метод делали на лекции
-                .AddPost()    // тоже на лекции
-                .AddNewsTitle(NewsTime) // вставляю переменную с датойвременем в название
-                .AddFiles(FileAddr) // Добавляю файл из директории винды 10, который должен быть у всех
-                .SaveNews() // жму на кнопку отправить
-                //.IsNewsWitFileAdded(NewsTime) // проверяю добавился ли текст с переменной в пост
-                .IsFileAttached(FileName); // проверяю есть ли файл по наличию текстового имени файла
+                homePage
+                    .LeftMenu     // Левое меню
+                    .OpenNews()   // Клик в новости
+                    .AddPost()    // Клик в поле новости
+                    .AddNewsTitle(NewsTime) // вставляю переменную с датойвременем в название
+                    .AddFiles(FileAddr) // Добавляю файл из директории винды 10, который должен быть у всех
+                    .SaveNews() // жму на кнопку отправить
+                    //.IsNewsWitFileAdded(NewsTime) // проверяю добавился ли текст с переменной в пост
+                    .IsFileAttached(FileName); // проверяю есть ли файл по наличию текстового имени файла
         }
     }
 }

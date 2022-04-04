@@ -19,6 +19,14 @@ namespace ATframework3demo.PageObjects
             return recipientsArea.AssertTextContains(recipientName, default);
         }
 
+        internal bool IsAnyonePresent(string recipientName)
+        {
+            //проверить наличие получатлей
+            var recipientsArea = new atFrameWork2.SeleniumFramework.WebItem("//div[@id='entity-selector-oPostFormLHE_blogPostForm']//span[@class='ui-tag-selector-add-button-caption' and contains(text(), 'Добавить сотрудников, группы или отделы')]",
+                "Область получателей поста");
+            return recipientsArea.AssertTextContains(recipientName, default);
+        }
+
         internal bool IsNewsWitFileAdded(string NewsTime)
         {
             //проверка что новость с текущим временем создалась(попробовал применить интерполяцию)
@@ -70,6 +78,19 @@ namespace ATframework3demo.PageObjects
             return new NewsPostForm();
         }
 
-       
+        internal NewsPostForm EnableSendToAll()
+        {
+            // выбирает отправить всем
+            var WhomArea = new WebItem("//span[@class='ui-tag-selector-add-button-caption' and text()='Добавить сотрудников, группы или отделы']",
+                "Клик в добавить сотрудников");
+            var BtnAllRecipients = new WebItem("//div[@class='ui-selector-item-title-box']/div[@class='ui-selector-item-title' and text()='Всем сотрудникам']",
+                "Выбрать всех сотрудников");
+            var TextArea = new WebItem("//iframe[@class='bx-editor-iframe']", "Поле текста'");
+            WhomArea.Click();
+            BtnAllRecipients.Click();
+            TextArea.Click();
+            return new NewsPostForm();
+        }
+
     }
 }
