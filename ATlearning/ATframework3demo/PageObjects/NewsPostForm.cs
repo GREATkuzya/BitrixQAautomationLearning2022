@@ -1,5 +1,6 @@
 ﻿using atFrameWork2.SeleniumFramework;
 using ATframework3demo.TestCases;
+using atFrameWork2.BaseFramework.LogTools;
 
 namespace ATframework3demo.PageObjects
 {
@@ -21,32 +22,42 @@ namespace ATframework3demo.PageObjects
         internal bool IsNewsWitFileAdded(string NewsTime)
         {
             //проверка что новость с текущим временем создалась(попробовал применить интерполяцию)
-            var NewsCheck = new WebItem($"//div[contains(text(), 'Пост с картинкой, который создался {NewsTime}')]",
+            var NewsCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]",
                 "Проверка присутствия переменной в новостях");
             return NewsCheck.AssertTextContains(NewsTime, "Новость не найдена", default);
+            
+        }
+
+        internal bool IsFileAttached(string FileName)
+        {
+            // проверка, что файл прикрепился к посту
+            var FileExists = new WebItem($"//img[@class='disk-ui-file-thumbnails-web-grid-img-item' and contains(@alt, '{FileName}')]", "проверка по имени файла в новости");
+            if (!FileExists.WaitElementDisplayed())
+                Log.Error("Файл не найден");
+            return FileExists.AssertTextContains(FileName, "Файл не найден", default);
         }
 
         internal NewsPostForm AddNewsTitle(string NewsTime)
         {
             // добавляет в заголовок новости текущее время
-            //var NewsTime = DateTime.Now;
             var NewsDeskFrame = new WebItem("//iframe[@class='bx-editor-iframe']", "ФРЕЙМ написать сообщение");
             // переключение во фрейм, отправление переменной, выход из фрейма
             NewsDeskFrame.SwitchToFrame();
             var NewsDescriptionField = new WebItem("//body[@contenteditable='true']", "поле фрейма написать сообщение");
-            NewsDescriptionField.SendKeys("Пост с картинкой, который создался " + NewsTime);
+            NewsDescriptionField.SendKeys(NewsTime);
             DriverActions.SwitchToDefaultContent();
             return new NewsPostForm();
         }
 
      
-        internal NewsPostForm AddFiles()
+        internal NewsPostForm AddFiles(string FileAddr)
         {
             //добавляет файл в инпут
             var BtnAddFiles = new WebItem("//div[@class='disk-file-control-panel-file-wrap']/input[@type='file']", "загрузка файла");
-            BtnAddFiles.SendKeys("C:/Windows/Web/Wallpaper/Theme1/img4.jpg");
-            //BtnAddFiles.SendKeys("https://static.mir-kubikov.ru/upload/medialibrary/000dk/60242_Feature2.jpg");  //не работает на картинку в вебе
-            Thread.Sleep(2000); //все ломается если не подождать здесь
+            BtnAddFiles.SendKeys($"{FileAddr}");
+            var OneDigit = new WebItem("//div[@class='ui-counter-inner' and text()='1']",
+                "Значок единички, что файл загрузился");
+            OneDigit.WaitElementDisplayed();// ожидание загрузки файла 
             return new NewsPostForm();
         }
         internal NewsPostForm SaveNews()
@@ -55,7 +66,7 @@ namespace ATframework3demo.PageObjects
             var BtnSaveNews = new WebItem("//button[@id='blog-submit-button-save']", 
                 "Кнопка отправить новость");
             BtnSaveNews.Click();
-            Thread.Sleep(2000); //все ломается если не подождать здесь
+            BtnSaveNews.WaitWhileElementDisplayed();
             return new NewsPostForm();
         }
 

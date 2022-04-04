@@ -19,7 +19,8 @@ namespace ATframework3demo.TestCases
         {
             DateTime NewsTimeToPost = DateTime.Now;
             string NewsTime = NewsTimeToPost.ToString(); //так создалось, по другому не хотело
-            
+            string FileAddr = "C:/Windows/Web/Wallpaper/Theme1/img4.jpg";
+            string FileName = "img4";
             // открыть новости
             // нажать на ввести сообщение
             // ввести сообщение
@@ -32,9 +33,10 @@ namespace ATframework3demo.TestCases
                 .OpenNews()   // метод делали на лекции
                 .AddPost()    // тоже на лекции
                 .AddNewsTitle(NewsTime) // вставляю переменную с датойвременем в название
-                .AddFiles() // Добавляю файл из директории винды 10, который должен быть у всех
+                .AddFiles(FileAddr) // Добавляю файл из директории винды 10, который должен быть у всех
                 .SaveNews() // жму на кнопку отправить
-                .IsNewsWitFileAdded(NewsTime); // проверяю добавился ли текст с переменной в пост
+                //.IsNewsWitFileAdded(NewsTime) // проверяю добавился ли текст с переменной в пост
+                .IsFileAttached(FileName); // проверяю есть ли файл по наличию текстового имени файла
         }
     }
 }
