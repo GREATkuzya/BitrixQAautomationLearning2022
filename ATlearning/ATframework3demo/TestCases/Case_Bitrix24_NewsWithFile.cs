@@ -21,6 +21,28 @@ namespace ATframework3demo.TestCases
             string NewsTime = NewsTimeToPost.ToString(); //так создалось, по другому не хотело
             string FileAddr = "C:/Windows/Web/Wallpaper/Theme1/img4.jpg";
             string FileName = "img4";
+            string assertPhrase = "Всем сотрудникам";
+            //Подготовка к кейсу, если галочка снята, то надо её установить обратно
+            if (homePage.LeftMenu.OpenNews().AddPost().IsRecipientPresent(assertPhrase) == false)
+            {
+                homePage
+                    .LeftMenu
+                    .OpenSettings()
+                    .EnableDefaultSendToAll()
+                    .Save();
+
+                bool isAllRecipientsDisplayed2 = homePage
+                    .LeftMenu
+                    .OpenNews()
+                    .AddPost()
+                    .IsRecipientPresent(assertPhrase);
+
+                if (!isAllRecipientsDisplayed2)
+                {
+                    Log.Error("Не Отображается 'Всем сотрудникам' в получателях поста," +
+                        " но при этом галочка в настройках установлена");
+                }
+            }
             // открыть новости
             // нажать на ввести сообщение
             // ввести сообщение
