@@ -19,8 +19,8 @@ namespace ATframework3demo.TestCases
         {
             DateTime NewsTimeToPost = DateTime.Now;
             string NewsTime = NewsTimeToPost.ToString(); //так создалось, по другому не хотело
-            string FileAddr = "C:/Windows/Web/Wallpaper/Theme1/img4.jpg";
-            string FileName = "img4";
+            string FileAddr = "C:/Windows/Web/Wallpaper/Theme1/img1.jpg";
+            string FileName = "img1";
             string assertPhrase = "Добавить сотрудников, группы или отделы";
             // разные сценарии кейса если стоит или не стоит получатель
             if (homePage.LeftMenu.OpenNews().AddPost().IsRecipientPresent(assertPhrase) == true)

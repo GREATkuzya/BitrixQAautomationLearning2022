@@ -8,9 +8,7 @@ namespace ATframework3demo.PageObjects
     /// Форма добавления нового сообщения в новости
     /// </summary>
     public class NewsPostForm
-    {
-        //DateTime NewsTime = DateTime.Now;
-
+    {      
         internal bool IsRecipientPresent(string recipientName)
         {
             //проверить наличие шильдика
@@ -18,8 +16,7 @@ namespace ATframework3demo.PageObjects
                 "Область получателей поста");
             return recipientsArea.AssertTextContains(recipientName, default);
         }
-
-     
+           
         internal bool IsNewsWitFileAdded(string NewsTime)
         {
             //проверка что новость с текущим временем создалась(попробовал применить интерполяцию)
@@ -32,7 +29,7 @@ namespace ATframework3demo.PageObjects
         internal bool IsFileAttached(string FileName)
         {
             // проверка, что файл прикрепился к посту
-            var FileExists = new WebItem($"//img[@class='disk-ui-file-thumbnails-web-grid-img-item' and contains(@alt, '{FileName}')]", "проверка по имени файла в новости");
+            var FileExists = new WebItem($"//div[@class='feed-item-wrap']//*[contains(@title, '{FileName}') or contains(@data-title, '{FileName}')]", "проверка по имени файла в новости");
             if (!FileExists.WaitElementDisplayed())
                 Log.Error("Файл не найден");
             return FileExists.AssertTextContains(FileName, "Файл не найден", default);
