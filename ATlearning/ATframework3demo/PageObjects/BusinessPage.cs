@@ -21,7 +21,17 @@ namespace atFrameWork2.PageObjects
         {
             var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]",
                "Проверка присутствия переменной в бизнесах");
-            return BusinessCheck.AssertTextContains(NewsTime, "бизнес не найдена", default);
+            return BusinessCheck.AssertTextContains(NewsTime, "бизнес не найден", default);
+        }
+
+        internal BusinessPage DeleteBusiness(string NewsTime)
+        {
+            var DelCross = new WebItem($"//div[contains(text(), '{NewsTime}')]/..//*[@type='submit']","Крестик удаления бизнеса");
+            DelCross.Click();
+            var DelAgree = new WebItem("//button[@class='ui-btn ui-btn-success']/span[text() = 'Подтвердить']", "Кнопка подтвердить");
+            DelAgree.WaitWhileElementDisplayed();
+            DelAgree.Click();
+            return new BusinessPage();
         }
     }
 }

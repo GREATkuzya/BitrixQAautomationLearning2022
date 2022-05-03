@@ -15,8 +15,11 @@ namespace ATframework3demo.TestCases
         {
             DateTime NewsTimeToPost = DateTime.Now;
             string NewsTime = NewsTimeToPost.ToString();
+
+
+            if (homePage.GoToBusiness().AddBusiness(NewsTime).IsBusinessAdded(NewsTime)) ;
+            { homePage.GoToBusiness().DeleteBusiness(NewsTime); }
             //перейти на страницу бизнесов
-            homePage.GoToBusiness().AddBusiness(NewsTime).IsBusinessAdded(NewsTime);
             //ввести имя бизнеса + нажать создать
             //проверить, что создался по названию
         }
