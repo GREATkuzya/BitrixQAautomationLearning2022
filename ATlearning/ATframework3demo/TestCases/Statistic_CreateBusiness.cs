@@ -13,10 +13,11 @@ namespace ATframework3demo.TestCases
 
         void CreateBusiness(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
+            DateTime NewsTimeToPost = DateTime.Now;
+            string NewsTime = NewsTimeToPost.ToString();
             //перейти на страницу бизнесов
-            homePage.GoToBusiness().AddBusiness();
-            //ввести имя бизнеса
-            //нажать создать
+            homePage.GoToBusiness().AddBusiness(NewsTime).IsBusinessAdded(NewsTime);
+            //ввести имя бизнеса + нажать создать
             //проверить, что создался по названию
         }
 
