@@ -1,4 +1,6 @@
-﻿namespace atFrameWork2.PageObjects
+﻿using atFrameWork2.SeleniumFramework;
+
+namespace atFrameWork2.PageObjects
 {
     internal class BusinessPage
     {
@@ -8,7 +10,10 @@
 
         internal void AddBusiness()
         {
-            throw new NotImplementedException();
+            var BusinessNameInput = new WebItem("//input[@name='business-name']", "Поле ввода названия бизнеса");
+            BusinessNameInput.SendKeys("сделать пременную");
+            var BusinessSubmit = new WebItem("//button[@name='submit']", "Кнопка создать бизнес");
+            BusinessSubmit.Click();
         }
     }
 }

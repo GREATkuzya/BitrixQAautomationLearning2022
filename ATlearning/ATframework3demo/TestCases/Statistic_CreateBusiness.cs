@@ -12,9 +12,9 @@ namespace ATframework3demo.TestCases
         }
 
         void CreateBusiness(atFrameWork2.PageObjects.PortalHomePage homePage)
-        { 
+        {
             //перейти на страницу бизнесов
-            homePage.GoToBusiness()
+            homePage.GoToBusiness().AddBusiness();
             //ввести имя бизнеса
             //нажать создать
             //проверить, что создался по названию
