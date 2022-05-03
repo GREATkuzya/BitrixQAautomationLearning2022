@@ -24,11 +24,33 @@ namespace atFrameWork2.PageObjects
             return new StatisticPage();
         }
 
+        internal BusinessPage LogOut()
+        {
+            var ExitButton = new WebItem("//a[@class='logout-btn-header-href']", "Выход из сервиса");
+            ExitButton.Click();
+            return new BusinessPage();
+        }
+
         internal bool IsBusinessAdded(string NewsTime)
         {
             var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]",
                "Проверка присутствия переменной в бизнесах");
             return BusinessCheck.AssertTextContains(NewsTime, "бизнес не найден", default);
+        }
+
+       
+        internal StatisticPage ChoseUnics()
+            {
+                var ChoseUnicsFilter = new WebItem("//label[@class='checkbox-ios']", "Выбор фильтра уникальные");
+                ChoseUnicsFilter.Click();
+                return new StatisticPage();
+            }
+
+        internal StatisticPage ChoseLink(string LinkAdress)
+        {
+            var ChoseOneLink = new WebItem($"//*[text() = '{LinkAdress}']", "");
+            ChoseOneLink.Click();
+            return new StatisticPage();
         }
 
         internal BusinessPage DeleteBusiness(string NewsTime)

@@ -8,6 +8,7 @@ namespace ATframework3demo.TestCases
         {
             var caseCollection = new List<TestCase>();
             caseCollection.Add(new TestCase("Создание бизнеса и удаление его", homePage => CreateBusiness(homePage)));
+            caseCollection.Add(new TestCase("Удаление ранее созданного бизнеса", homePage => DeleteBusiness(homePage)));
             return caseCollection;
         }
 
@@ -18,13 +19,22 @@ namespace ATframework3demo.TestCases
 
 
             if (homePage.GoToBusiness().AddBusiness(NewsTime).IsBusinessAdded(NewsTime)) ;
-            { homePage.GoToBusiness().DeleteBusiness(NewsTime); }
+            { homePage.GoToBusiness().DeleteBusiness(NewsTime).LogOut(); }
             //перейти на страницу бизнесов
             //ввести имя бизнеса + нажать создать
             //проверить, что создался по названию
             //удалить этот бизнес
+            //Выйти из системы
         }
 
+
+        void DeleteBusiness(atFrameWork2.PageObjects.PortalHomePage homePage)
+        {
+            string BusinessName = "для удаления";
+             homePage.GoToBusiness().DeleteBusiness(BusinessName); 
+            //перейти на страницу бизнесов
+           //удалить бизнес
+        }
 
 
     }
