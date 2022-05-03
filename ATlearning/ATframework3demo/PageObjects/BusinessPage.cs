@@ -31,6 +31,23 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
         }
 
+        internal bool IsBusinessDeleted(string NewsTime)
+        {
+            var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]",
+             "Проверка присутствия переменной в бизнесах");
+            if 
+            (
+                BusinessCheck.AssertTextContains(NewsTime, "бизнес не найден", default)
+            ) 
+                {
+                return false;
+                }
+            else 
+            {
+                return true;
+            }
+        }
+
         internal bool IsBusinessAdded(string NewsTime)
         {
             var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]",

@@ -19,7 +19,9 @@ namespace ATframework3demo.TestCases
 
 
             if (homePage.GoToBusiness().AddBusiness(NewsTime).IsBusinessAdded(NewsTime)) ;
-            { homePage.GoToBusiness().DeleteBusiness(NewsTime).LogOut(); }
+            { homePage.GoToBusiness().DeleteBusiness(NewsTime); };
+            homePage.GoToBusiness().IsBusinessDeleted(NewsTime);
+                homePage.GoToBusiness().LogOut(); 
             //перейти на страницу бизнесов
             //ввести имя бизнеса + нажать создать
             //проверить, что создался по названию
