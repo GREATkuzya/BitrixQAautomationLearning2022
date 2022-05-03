@@ -7,7 +7,7 @@ namespace ATframework3demo.TestCases
         protected override List<TestCase> GetCases()
         {
             var caseCollection = new List<TestCase>();
-            caseCollection.Add(new TestCase("Создание бизнеса", homePage => CreateBusiness(homePage)));
+            caseCollection.Add(new TestCase("Создание бизнеса и удаление его", homePage => CreateBusiness(homePage)));
             return caseCollection;
         }
 
@@ -22,7 +22,10 @@ namespace ATframework3demo.TestCases
             //перейти на страницу бизнесов
             //ввести имя бизнеса + нажать создать
             //проверить, что создался по названию
+            //удалить этот бизнес
         }
+
+
 
     }
 }

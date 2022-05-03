@@ -17,6 +17,13 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
         }
 
+        internal BusinessPage ChooseBusiness(string businessName)
+        {
+            var ChosenOneBus = new WebItem($"//div[contains(text(), '{businessName}')]/..//*[contains(text(), 'Открыть')]", "Выбор заданного бизнеса");
+            ChosenOneBus.Click();
+            return new StatisticPage();
+        }
+
         internal bool IsBusinessAdded(string NewsTime)
         {
             var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]",
