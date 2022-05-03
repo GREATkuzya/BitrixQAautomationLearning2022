@@ -23,10 +23,9 @@ namespace ATframework3demo.TestCases
             homePage
                 .LeftMenu
                 .OpenNews()
-                .AddPost()
-                .AddNewsTitle()
-                .AddFiles()
-                .SaveNews();
+                .AddPost();
+              
+                
         }
     }
 }
