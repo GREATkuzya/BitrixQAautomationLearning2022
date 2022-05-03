@@ -13,12 +13,7 @@ namespace ATframework3demo.TestCases
         }
         void CreateNewsWithFile(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
-            // нажать на ввести сообщение
-            // ввести сообщение
-            // нажать на файл
-            // выбрать файл
-            // нажать открыть
-            // нажать отправить
+            
 
             homePage
                 .LeftMenu
