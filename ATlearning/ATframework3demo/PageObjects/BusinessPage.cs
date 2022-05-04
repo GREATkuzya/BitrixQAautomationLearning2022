@@ -1,5 +1,7 @@
 ﻿using atFrameWork2.BaseFramework.LogTools;
 using atFrameWork2.SeleniumFramework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
 namespace atFrameWork2.PageObjects
 {
@@ -67,9 +69,10 @@ namespace atFrameWork2.PageObjects
 
         internal BusinessPage GetMark()
         {
-            var MarkText = new WebItem("//div[@class='section-content section-content-darker']", "Метка для вставки на страницу");
+            var MarkText = new WebItem("//div[@class='section-content']/pre", "Метка для вставки на страницу");
             MarkText.WaitElementDisplayed();
-            var MarkTextHtml = MarkText.InnerText().ToString();
+            //var MarkTextHtml = MarkText.InnerText().ToString();
+            string MarkTextHtml = MarkText.GetAttribute("innerText");
             Log.Info($"{MarkTextHtml}");
             return new BusinessPage();
         }
@@ -103,6 +106,16 @@ namespace atFrameWork2.PageObjects
             ChoseLinks.Click();
             return new StatisticPage();
         }
+
+
+        internal BusinessPage GoToVisitStatistic()
+        {
+            var ChoseLinks = new WebItem("//a[text() = 'Статистика посещений']", "Переход на страницу статистики посещений");
+            ChoseLinks.Click();
+            return new StatisticPage();
+        }
+
+
 
         internal BusinessPage LogOut()
         {
@@ -153,6 +166,7 @@ namespace atFrameWork2.PageObjects
             var ChoseOneLink = new WebItem($"//*[text() = '{LinkAdress}']", "");
             ChoseOneLink.Click();
             return new StatisticPage();
+
         }
 
         internal BusinessPage DeleteBusiness(string NewsTime)
@@ -164,5 +178,14 @@ namespace atFrameWork2.PageObjects
             DelAgree.Click();
             return new BusinessPage();
         }
+
+        internal BusinessPage GoToMarkedLink(string MarkLink)
+        {
+            WebDriver driver = new ChromeDriver();
+            driver.Url = MarkLink;
+            Thread.Sleep(3000);
+            return new BusinessPage();
+        }
+
     }
 }

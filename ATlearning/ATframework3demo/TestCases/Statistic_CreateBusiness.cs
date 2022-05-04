@@ -57,7 +57,10 @@ namespace ATframework3demo.TestCases
                 .ChooseBusiness(BusinessName)     //выбрать бизнес
                 .GoToMarkPage()                   //перейти на страницу с меткой  
                 .GetMark();                       //получить метку
+                
         }
+
+        
 
     }
 }
