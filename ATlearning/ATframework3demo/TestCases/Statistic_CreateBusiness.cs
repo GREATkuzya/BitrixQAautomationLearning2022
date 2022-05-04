@@ -33,9 +33,11 @@ namespace ATframework3demo.TestCases
         void DeleteBusiness(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             string BusinessName = "для удаления";
-             homePage.GoToBusiness().DeleteBusiness(BusinessName); 
+             homePage.GoToBusiness().DeleteBusiness(BusinessName);
+            homePage.GoToBusiness().IsBusinessDeleted(BusinessName);
             //перейти на страницу бизнесов
-           //удалить бизнес
+            //удалить бизнес
+            //проверить, что бизнес удален
         }
 
 
