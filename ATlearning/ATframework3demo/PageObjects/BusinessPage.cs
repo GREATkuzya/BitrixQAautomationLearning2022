@@ -184,6 +184,7 @@ namespace atFrameWork2.PageObjects
             WebDriver driver = new ChromeDriver();
             driver.Url = MarkLink;
             //Thread.Sleep(3000);
+            Log.Info($"Произведен переход по странице со встроенной меткой данного бизнеса: {MarkLink}");
             driver.Quit();
             return new BusinessPage();
         }

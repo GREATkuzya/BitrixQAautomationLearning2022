@@ -18,14 +18,19 @@ namespace ATframework3demo.TestCases
         void WatchBusinessStat(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             string BusinessName = "hello";
-            homePage.GoToBusiness().ChooseBusiness(BusinessName);
+            homePage
+                .GoToBusiness()                      //открыть страницу бизнесов
+                .ChooseBusiness(BusinessName);       //Выбрать бизнес
             Thread.Sleep(10000);
         }
 
         void WatchBusinessStatUnics(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             string BusinessName = "тест";
-            homePage.GoToBusiness().ChooseBusiness(BusinessName).ChoseUnics();
+            homePage
+                .GoToBusiness()
+                .ChooseBusiness(BusinessName)
+                .ChoseUnics();
             Thread.Sleep(10000);
         }
 
@@ -33,7 +38,11 @@ namespace ATframework3demo.TestCases
         {
             string BusinessName = "тест";
             string LinkAdress = "file:///D:/index.html";
-            homePage.GoToBusiness().ChooseBusiness(BusinessName).ChoseLink(LinkAdress).IsLinkChosen(LinkAdress);
+            homePage
+                .GoToBusiness()
+                .ChooseBusiness(BusinessName)
+                .ChoseLink(LinkAdress)
+                .IsLinkChosen(LinkAdress);
             Thread.Sleep(10000);
         }
 
@@ -42,7 +51,10 @@ namespace ATframework3demo.TestCases
         {
             string BusinessName = "тест";
             string LinkAdress = "file:///D:/index.html";
-            homePage.GoToBusiness().ChooseBusiness(BusinessName).GetWatchNum(LinkAdress);
+            homePage
+                .GoToBusiness()
+                .ChooseBusiness(BusinessName)
+                .GetWatchNum(LinkAdress);
             //Thread.Sleep(10000);
         }
 
@@ -55,8 +67,8 @@ namespace ATframework3demo.TestCases
                 .GoToBusiness()                   //перейти на страницу бизнесов
                 .ChooseBusiness(BusinessName)     //выбрать бизнес
                 .GetLinkStatistic(LinkMark)       //взять в лог количество посещений страницы
-                .GoToMarkedLink(LinkMark)         //загрузить  страницу с меткой отдельно в новой вкладке
-                .GoToVisitStatistic()             //перейти на страницу статистики для обновления данных
+                .GoToMarkedLink(LinkMark)         //загрузить  страницу с меткой отдельно в новой вкладке и закрыть
+                .GoToVisitStatistic()             //перейти(обновить) на страницу статистики для обновления данных
                 .GetLinkStatistic(LinkMark);      //взять в лог количество посещений страницы(+1)
         }
 
