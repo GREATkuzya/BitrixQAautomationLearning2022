@@ -22,6 +22,60 @@ namespace atFrameWork2.PageObjects
         {
             var ChosenOneBus = new WebItem($"//div[contains(text(), '{businessName}')]/..//*[contains(text(), 'Открыть')]", "Выбор заданного бизнеса");
             ChosenOneBus.Click();
+            return new BusinessPage();
+        }
+
+        internal BusinessPage LinkAdd(string linkName, string linkAdress)
+        {
+            var LinkTagInput = new WebItem("//input[@name='tag']", "Поле ввода тэга ссылки");
+            var LinkUrlInput = new WebItem("//input[@name='url']", "Поле ввода тэга ссылки");
+            var LinkShortInput = new WebItem("//input[@name='short_path']", "Поле ввода тэга ссылки");
+            var LinkSubmit = new WebItem("//input[@name='submit']", "Создание короткой ссылки");
+            LinkTagInput.SendKeys(linkName);
+            LinkUrlInput.SendKeys(linkAdress);
+            LinkSubmit.Click();
+            return new BusinessPage();
+
+
+        }
+
+        internal BusinessPage DeleteLink(string linkName)
+        {
+            var LinkCross = new WebItem($"//div[contains(text(), '{linkName}')]/..//*[@type='submit']", "Кнопка удаления ссылки");
+            LinkCross.Click();
+            LinkCross.WaitWhileElementDisplayed();
+            return new BusinessPage();
+
+        }
+
+        internal bool IsLinkAdded(string linkName)
+        {
+            var LinkCheck = new WebItem($"//div[contains(text(), '{linkName}')]", "Проверка присутствия ссылки");
+            if (!LinkCheck.WaitElementDisplayed())
+                Log.Error("Ссылка не существует");
+
+            return LinkCheck.AssertTextContains(linkName, "Ссылка не найдена", default);
+        }
+
+        internal BusinessPage GetLinkStatistic(string linkName)
+        {
+            var AllLinkRedirects = new WebItem($"(//a[text() = '{linkName}']/../../../..//td[@class='main-grid-cell main-grid-cell-left']/div/span)[2]", "Количество переходов по ссылке всего");
+         string RedirectsNum =  AllLinkRedirects.InnerText();
+            Log.Info($"{RedirectsNum}");
+            return new StatisticPage();
+        }
+
+        internal BusinessPage GoToLinksStatistic()
+        {
+            var StatisticLinks = new WebItem("//li/a[text() = 'Статистика переходов']", "Переход на страницу статистики перехода по ссылкам");
+            StatisticLinks.Click();
+            return new StatisticPage();
+        }
+
+        internal BusinessPage GoToLinks()
+        {
+            var ChoseLinks = new WebItem("//a[text() = 'Генерация ссылок']", "Переход на страницу создания и удаления коротких ссылок ссылок");
+            ChoseLinks.Click();
             return new StatisticPage();
         }
 
