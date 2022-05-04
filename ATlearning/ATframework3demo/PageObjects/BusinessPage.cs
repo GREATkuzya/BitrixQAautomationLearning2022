@@ -57,6 +57,14 @@ namespace atFrameWork2.PageObjects
             return LinkCheck.AssertTextContains(linkName, "Ссылка не найдена", default);
         }
 
+        internal BusinessPage GetWatchNum(string linkAdress)
+        {
+            var LinkWatchNum = new WebItem($"(//a[text() = '{linkAdress}']/../../../..//td[@class='main-grid-cell main-grid-cell-left']/div/span)[2]", "Количество просмотров сайта");
+            string WatchNum = LinkWatchNum.InnerText();
+            Log.Info($"{WatchNum}");
+            return new StatisticPage();
+        }
+
         internal BusinessPage GetLinkStatistic(string linkName)
         {
             var AllLinkRedirects = new WebItem($"(//a[text() = '{linkName}']/../../../..//td[@class='main-grid-cell main-grid-cell-left']/div/span)[2]", "Количество переходов по ссылке всего");

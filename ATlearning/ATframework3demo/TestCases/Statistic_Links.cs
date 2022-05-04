@@ -8,7 +8,7 @@ namespace ATframework3demo.TestCases
             var caseCollection = new List<TestCase>();
             caseCollection.Add(new TestCase("Создание короткой ссылки", homePage => CreateLink(homePage)));
             caseCollection.Add(new TestCase("Удаление ранее созданно короткой ссылки", homePage => DeleteLink(homePage)));
-            caseCollection.Add(new TestCase("Просмотр статистики переходов по ссылке", homePage => WatchStatsLink(homePage)));
+            caseCollection.Add(new TestCase("Просмотр статистики переходов по ссылке(общее)", homePage => WatchStatsLink(homePage)));
             return caseCollection;
         }
 
@@ -41,7 +41,7 @@ namespace ATframework3demo.TestCases
 
         void WatchStatsLink(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
-            string LinkName = "какое-то название1";
+            string LinkName = "какое-то название";
             string BusinessName = "hello";
             homePage.GoToBusiness().ChooseBusiness(BusinessName).GoToLinksStatistic().GetLinkStatistic(LinkName);
             //войти

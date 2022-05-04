@@ -10,6 +10,7 @@ namespace ATframework3demo.TestCases
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу", homePage => WatchBusinessStat(homePage)));
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по фильтру уникальные", homePage => WatchBusinessStatUnics(homePage)));
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по конкретной ссылке", homePage => WatchBusinessStatLink(homePage)));
+            caseCollection.Add(new TestCase("Просмотр количества посещений конкретной ссылкb", homePage => WatchLinkStatsNum(homePage)));
             return caseCollection;
         }
 
@@ -33,6 +34,15 @@ namespace ATframework3demo.TestCases
             string LinkAdress = "file:///D:/index.html";
             homePage.GoToBusiness().ChooseBusiness(BusinessName).ChoseLink(LinkAdress).IsLinkChosen(LinkAdress);
             Thread.Sleep(10000);
+        }
+
+
+        void WatchLinkStatsNum(atFrameWork2.PageObjects.PortalHomePage homePage)
+        {
+            string BusinessName = "тест";
+            string LinkAdress = "file:///D:/index.html";
+            homePage.GoToBusiness().ChooseBusiness(BusinessName).GetWatchNum(LinkAdress);
+            //Thread.Sleep(10000);
         }
 
     }
