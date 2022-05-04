@@ -183,7 +183,8 @@ namespace atFrameWork2.PageObjects
         {
             WebDriver driver = new ChromeDriver();
             driver.Url = MarkLink;
-            Thread.Sleep(3000);
+            //Thread.Sleep(3000);
+            driver.Quit();
             return new BusinessPage();
         }
 
