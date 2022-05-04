@@ -91,18 +91,30 @@ namespace atFrameWork2.PageObjects
         {
             var ExitButton = new WebItem("//a[@class='logout-btn-header-href']", "Выход из сервиса");
             ExitButton.Click();
+            ExitButton.WaitWhileElementDisplayed();
             return new BusinessPage();
         }
 
         internal bool IsBusinessDeleted(string NewsTime)
         { 
               var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]", "Проверка присутствия переменной в бизнесах");
-         if (BusinessCheck.WaitElementDisplayed())
+            if
+                (
+                BusinessCheck.WaitElementDisplayed()
+                ) 
+            {
                 Log.Error("Бизнес существует, хотя лолжен быть удален");
-
-          return  !BusinessCheck.AssertTextContains(NewsTime, "бизнес не найден", default);
+                return false;
+            }
+         else 
+            {
+                return true;
+            }
+          //return  BusinessCheck.AssertTextContains(NewsTime, "бизнес не найден", default);
            
         }
+
+
 
         internal bool IsBusinessAdded(string NewsTime)
         {

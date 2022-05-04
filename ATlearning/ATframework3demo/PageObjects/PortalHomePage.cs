@@ -8,7 +8,7 @@ namespace atFrameWork2.PageObjects
 {
     public class PortalHomePage
     {
-        public PortalLeftMenu LeftMenu => new PortalLeftMenu();
+        //public PortalLeftMenu LeftMenu => new PortalLeftMenu();
 
         internal BusinessPage GoToBusiness()
         {

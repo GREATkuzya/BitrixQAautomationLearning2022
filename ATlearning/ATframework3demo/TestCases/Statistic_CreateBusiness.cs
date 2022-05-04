@@ -7,7 +7,7 @@ namespace ATframework3demo.TestCases
         protected override List<TestCase> GetCases()
         {
             var caseCollection = new List<TestCase>();
-            caseCollection.Add(new TestCase("Создание бизнеса и удаление его", homePage => CreateBusiness(homePage)));
+            caseCollection.Add(new TestCase("Создание бизнеса, удаление его и выход из системы", homePage => CreateBusiness(homePage)));
             caseCollection.Add(new TestCase("Удаление ранее созданного бизнеса", homePage => DeleteBusiness(homePage)));
             return caseCollection;
         }
@@ -18,26 +18,38 @@ namespace ATframework3demo.TestCases
             string NewsTime = NewsTimeToPost.ToString();
 
 
-            if (homePage.GoToBusiness().AddBusiness(NewsTime).IsBusinessAdded(NewsTime)) ;
-            { homePage.GoToBusiness().DeleteBusiness(NewsTime); };
-            homePage.GoToBusiness().IsBusinessDeleted(NewsTime);
-                homePage.GoToBusiness().LogOut(); 
-            //перейти на страницу бизнесов
-            //ввести имя бизнеса + нажать создать
-            //проверить, что создался по названию
-            //удалить этот бизнес
-            //Выйти из системы
+            if (homePage
+                    .GoToBusiness()                //перейти на страницу бизнесов
+                    .AddBusiness(NewsTime)         //ввести имя бизнеса + нажать создать
+                    .IsBusinessAdded(NewsTime)     //проверить, что создался по названию
+                ) ;
+                {homePage
+                    .GoToBusiness()
+                    .DeleteBusiness(NewsTime);     //удалить этот бизнес
+            };
+                homePage
+                    .GoToBusiness()
+                    .IsBusinessDeleted(NewsTime);  //Проверить, что бизнеса нет
+            homePage.GoToBusiness().LogOut();       //Выйти из системы
+
+
+
+
+
+
         }
 
 
         void DeleteBusiness(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             string BusinessName = "для удаления";
-             homePage.GoToBusiness().DeleteBusiness(BusinessName);
-            homePage.GoToBusiness().IsBusinessDeleted(BusinessName);
-            //перейти на страницу бизнесов
-            //удалить бизнес
-            //проверить, что бизнес удален
+            homePage
+                .GoToBusiness()                   //перейти на страницу бизнесов
+                .DeleteBusiness(BusinessName);    //удалить бизнес
+            homePage
+                .GoToBusiness()
+                .IsBusinessDeleted(BusinessName); //проверить, что бизнес удален
+
         }
 
 

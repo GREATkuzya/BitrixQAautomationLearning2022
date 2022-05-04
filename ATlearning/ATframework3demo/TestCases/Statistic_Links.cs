@@ -8,7 +8,7 @@ namespace ATframework3demo.TestCases
             var caseCollection = new List<TestCase>();
             caseCollection.Add(new TestCase("Создание короткой ссылки", homePage => CreateLink(homePage)));
             caseCollection.Add(new TestCase("Удаление ранее созданно короткой ссылки", homePage => DeleteLink(homePage)));
-            caseCollection.Add(new TestCase("Просмотр статистики переходов по ссылке(общее)", homePage => WatchStatsLink(homePage)));
+            caseCollection.Add(new TestCase("Просмотр количества переходов по ссылке(общее)", homePage => WatchStatsLink(homePage)));
             return caseCollection;
         }
 

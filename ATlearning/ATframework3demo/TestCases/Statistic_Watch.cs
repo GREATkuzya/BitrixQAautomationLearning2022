@@ -10,7 +10,7 @@ namespace ATframework3demo.TestCases
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу", homePage => WatchBusinessStat(homePage)));
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по фильтру уникальные", homePage => WatchBusinessStatUnics(homePage)));
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по конкретной ссылке", homePage => WatchBusinessStatLink(homePage)));
-            caseCollection.Add(new TestCase("Просмотр количества посещений конкретной ссылкb", homePage => WatchLinkStatsNum(homePage)));
+            caseCollection.Add(new TestCase("Просмотр количества посещений конкретной ссылки", homePage => WatchLinkStatsNum(homePage)));
             return caseCollection;
         }
 
