@@ -65,6 +65,23 @@ namespace atFrameWork2.PageObjects
             return new StatisticPage();
         }
 
+        internal BusinessPage GetMark()
+        {
+            var MarkText = new WebItem("//div[@class='section-content section-content-darker']", "Метка для вставки на страницу");
+            MarkText.WaitElementDisplayed();
+            var MarkTextHtml = MarkText.InnerText().ToString();
+            Log.Info($"{MarkTextHtml}");
+            return new BusinessPage();
+        }
+
+        internal BusinessPage GoToMarkPage()
+        {
+            var MarkPage = new WebItem("//li/a[text() = 'Генерация меток']", "Переход на страницу генерации меток");
+            MarkPage.Click();
+            Thread.Sleep(3000);
+            return new BusinessPage();
+        }
+
         internal BusinessPage GetLinkStatistic(string linkName)
         {
             var AllLinkRedirects = new WebItem($"(//a[text() = '{linkName}']/../../../..//td[@class='main-grid-cell main-grid-cell-left']/div/span)[2]", "Количество переходов по ссылке всего");
