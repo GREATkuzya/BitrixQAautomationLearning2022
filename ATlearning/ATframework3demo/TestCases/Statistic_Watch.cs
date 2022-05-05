@@ -28,9 +28,9 @@ namespace ATframework3demo.TestCases
         {
             string BusinessName = "тест";
             homePage
-                .GoToBusiness()
-                .ChooseBusiness(BusinessName)
-                .ChoseUnics();
+                .GoToBusiness()                      //открыть страницу бизнесов
+                .ChooseBusiness(BusinessName)        //Выбрать бизнес
+                .ChoseUnics();                       //Выбрать фильтр уникальные
             Thread.Sleep(10000);
         }
 
@@ -39,10 +39,10 @@ namespace ATframework3demo.TestCases
             string BusinessName = "тест";
             string LinkAdress = "file:///D:/index.html";
             homePage
-                .GoToBusiness()
-                .ChooseBusiness(BusinessName)
-                .ChoseLink(LinkAdress)
-                .IsLinkChosen(LinkAdress);
+                .GoToBusiness()                      //открыть страницу бизнесов
+                .ChooseBusiness(BusinessName)        //Выбрать бизнес
+                .ChoseLink(LinkAdress)               //Выбрать ссылку
+                .IsLinkChosen(LinkAdress);           //Проверить, что нужная ссылка выбрана
             Thread.Sleep(10000);
         }
 
@@ -52,9 +52,9 @@ namespace ATframework3demo.TestCases
             string BusinessName = "тест";
             string LinkAdress = "file:///D:/index.html";
             homePage
-                .GoToBusiness()
-                .ChooseBusiness(BusinessName)
-                .GetWatchNum(LinkAdress);
+                .GoToBusiness()                      //открыть страницу бизнесов
+                .ChooseBusiness(BusinessName)        //Выбрать бизнес
+                .GetWatchNum(LinkAdress);            //Посмотреть количество общих просмотров по ссылке
             //Thread.Sleep(10000);
         }
 

@@ -2,6 +2,7 @@
 using atFrameWork2.SeleniumFramework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using QRCodeDecoderLibrary;
 
 namespace atFrameWork2.PageObjects
 {
@@ -82,6 +83,28 @@ namespace atFrameWork2.PageObjects
             var MarkPage = new WebItem("//li/a[text() = 'Генерация меток']", "Переход на страницу генерации меток");
             MarkPage.Click();
             Thread.Sleep(3000);
+            return new BusinessPage();
+        }
+
+        internal BusinessPage GenerateQR(string LinkAdress)
+        {
+            var AddQR = new WebItem($"//a[@href = '{LinkAdress}']/../..//button[@name='generate-qr-btn']", "Кнопка генерации QR-кода");
+            AddQR.Click();
+            var QRImg = new WebItem($"//a[@href = '{LinkAdress}']/../..//img[@alt='Scan me!']", "Картинка QR-кода");
+            string ImgSrc = QRImg.GetAttribute("src");
+            Log.Info(ImgSrc);
+            //mgSrc
+            // create QR Code decoder object
+            QRDecoder Decoder = new QRDecoder();
+
+            // call image decoder method with file name
+            // string Img = "File:///C:/Users/kuzya/Downloads/qr.png";
+            QRCodeResult[] ResultArray = Decoder.ImageDecoder(File:///C:/Users/kuzya/Downloads/qr.png);
+            //Log.Info(QRCodeResult);
+
+
+
+
             return new BusinessPage();
         }
 
