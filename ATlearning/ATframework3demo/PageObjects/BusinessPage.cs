@@ -92,7 +92,8 @@ namespace atFrameWork2.PageObjects
             AddQR.Click();
             var QRImg = new WebItem($"//a[@href = '{LinkAdress}']/../..//img[@alt='Scan me!']", "Картинка QR-кода");
             string ImgSrc = QRImg.GetAttribute("src");
-            
+            var TagItem = new WebItem($"//a[@href = '{LinkAdress}']/../..//div[@name='link-short-path']", "Короткая ссылка");
+            string TagAdress = TagItem.GetAttribute("innerText");
 
             IWebDriver webDriver = DriverActions.GetNewDriver();
             string uri1 = "https://codebeautify.org/base64-to-image-converter";
@@ -113,20 +114,23 @@ namespace atFrameWork2.PageObjects
             webDriver1.Navigate().GoToUrl(uri2);
             var ImgLoad = new WebItem("//input[@id='qr_file']", "загрузить картинку с qr-кодом");
             var Submit = new WebItem("//input[@id='qr_decode_submit']", "Кнопка загрузки картинки");
-            var Result = new WebItem("//div[@class='success']", "див с результатом");
+            
             ImgLoad.WaitElementDisplayed(5, webDriver1);
             Submit.WaitElementDisplayed(5, webDriver1);
             ImgLoad.SendKeys("C:/Users/kuzya/Downloads/cbimage.png", webDriver1);
             Submit.Click(webDriver1);
             Thread.Sleep(3000);
-            if (Result.AssertTextContains(LinkAdress, "Ссылка не найдена", default)) 
+            var Result = new WebItem("//div[@class='success']", "див с результатом");
+            string QrResult = Result.GetAttribute("innerText", webDriver1);
+            if (Result.AssertTextContains(TagAdress, "Ссылка не найдена", webDriver1)) 
             {
-                Log.Info("5");
+                Log.Info($"QR-код распознался правильно ({TagAdress} - код первоначальный, {QrResult}- Код распознанный)");
             }
             else
             {
-                Log.Error("");
+                Log.Error("QR-код не распознался");
             };
+            webDriver1.Quit();
             return new BusinessPage();
 
            
