@@ -30,7 +30,8 @@ namespace ATframework3demo.TestCases
             homePage
                 .GoToBusiness()                      //открыть страницу бизнесов
                 .ChooseBusiness(BusinessName)        //Выбрать бизнес
-                .ChoseUnics();                       //Выбрать фильтр уникальные
+                .ChoseUnics()                        //Выбрать фильтр уникальные
+                .IsUnicsChosen();                    //Проверить, что фильтр выбран
             Thread.Sleep(10000);
         }
 

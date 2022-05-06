@@ -92,20 +92,44 @@ namespace atFrameWork2.PageObjects
             AddQR.Click();
             var QRImg = new WebItem($"//a[@href = '{LinkAdress}']/../..//img[@alt='Scan me!']", "Картинка QR-кода");
             string ImgSrc = QRImg.GetAttribute("src");
-            Log.Info(ImgSrc);
-            //mgSrc
-            // create QR Code decoder object
-            QRDecoder Decoder = new QRDecoder();
+            
 
-            // call image decoder method with file name
-            // string Img = "File:///C:/Users/kuzya/Downloads/qr.png";
-            QRCodeResult[] ResultArray = Decoder.ImageDecoder(File:///C:/Users/kuzya/Downloads/qr.png);
-            //Log.Info(QRCodeResult);
+            IWebDriver webDriver = DriverActions.GetNewDriver();
+            string uri1 = "https://codebeautify.org/base64-to-image-converter";
+            webDriver.Navigate().GoToUrl(uri1);
+            var TextArea = new WebItem("//textarea[@id='inputTextArea']", "Поле ввода Base64");
+            var GenerateButton = new WebItem("//button[@id='defaultAction']", "Кнопка Генерации картинки");
+            var DownloadImage = new WebItem("//button[@id='downloadImage2']", "Кнопка скачать");
+            TextArea.WaitElementDisplayed(5, webDriver);
+            GenerateButton.WaitElementDisplayed(5, webDriver);
+            TextArea.SendKeys(ImgSrc, webDriver);
+            GenerateButton.Click(webDriver);
+            DownloadImage.Click(webDriver);
+            Thread.Sleep(3000);
+            webDriver.Quit();
 
-
-
-
+            IWebDriver webDriver1 = DriverActions.GetNewDriver();
+            string uri2 = "https://decodeit.ru/qr/";
+            webDriver1.Navigate().GoToUrl(uri2);
+            var ImgLoad = new WebItem("//input[@id='qr_file']", "загрузить картинку с qr-кодом");
+            var Submit = new WebItem("//input[@id='qr_decode_submit']", "Кнопка загрузки картинки");
+            var Result = new WebItem("//div[@class='success']", "див с результатом");
+            ImgLoad.WaitElementDisplayed(5, webDriver1);
+            Submit.WaitElementDisplayed(5, webDriver1);
+            ImgLoad.SendKeys("C:/Users/kuzya/Downloads/cbimage.png", webDriver1);
+            Submit.Click(webDriver1);
+            Thread.Sleep(3000);
+            if (Result.AssertTextContains(LinkAdress, "Ссылка не найдена", default)) 
+            {
+                Log.Info("5");
+            }
+            else
+            {
+                Log.Error("");
+            };
             return new BusinessPage();
+
+           
         }
 
         internal BusinessPage GetLinkStatistic(string linkName)
