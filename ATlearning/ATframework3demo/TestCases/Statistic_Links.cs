@@ -10,7 +10,7 @@ namespace ATframework3demo.TestCases
             caseCollection.Add(new TestCase("Создание короткой ссылки", homePage => CreateLink(homePage)));
             caseCollection.Add(new TestCase("Удаление ранее созданной короткой ссылки", homePage => DeleteLink(homePage)));
             caseCollection.Add(new TestCase("Просмотр количества переходов по ссылке(общее)", homePage => WatchStatsLink(homePage)));
-            caseCollection.Add(new TestCase("Создание QR-кода по короткой ссылке, проверка соответствия текста в QR-коде, удаление следов", homePage => QRCreateAndCheck(homePage)));
+            caseCollection.Add(new TestCase("Создание QR-кода по короткой ссылке, проверка соответствия текста в QR-коде через UI, удаление следов", homePage => QRCreateAndCheck(homePage)));
             return caseCollection;
         }
 

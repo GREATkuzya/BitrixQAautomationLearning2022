@@ -11,7 +11,7 @@ namespace ATframework3demo.TestCases
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по фильтру уникальные", homePage => WatchBusinessStatUnics(homePage)));
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по конкретной ссылке", homePage => WatchBusinessStatLink(homePage)));
             caseCollection.Add(new TestCase("Просмотр количества посещений конкретной ссылки", homePage => WatchLinkStatsNum(homePage)));
-            caseCollection.Add(new TestCase("Переход по ссылке и просмотр статистики", homePage => VisitAndCheck(homePage)));
+            caseCollection.Add(new TestCase("Просмотр статистики по ссылке, переход по ссылке с этой меткой и просмотр обновленной статистики", homePage => VisitAndCheck(homePage)));
             return caseCollection;
         }
 
@@ -21,7 +21,7 @@ namespace ATframework3demo.TestCases
             homePage
                 .GoToBusiness()                      //открыть страницу бизнесов
                 .ChooseBusiness(BusinessName);       //Выбрать бизнес
-            Thread.Sleep(10000);
+            
         }
 
         void WatchBusinessStatUnics(atFrameWork2.PageObjects.PortalHomePage homePage)
@@ -31,8 +31,7 @@ namespace ATframework3demo.TestCases
                 .GoToBusiness()                      //открыть страницу бизнесов
                 .ChooseBusiness(BusinessName)        //Выбрать бизнес
                 .ChoseUnics()                        //Выбрать фильтр уникальные
-                .IsUnicsChosen();                    //Проверить, что фильтр выбран
-            Thread.Sleep(10000);
+                .IsUnicsChosen(true);                //Проверить, что фильтр выбран
         }
 
         void WatchBusinessStatLink(atFrameWork2.PageObjects.PortalHomePage homePage)
@@ -44,7 +43,7 @@ namespace ATframework3demo.TestCases
                 .ChooseBusiness(BusinessName)        //Выбрать бизнес
                 .ChoseLink(LinkAdress)               //Выбрать ссылку
                 .IsLinkChosen(LinkAdress);           //Проверить, что нужная ссылка выбрана
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
         }
 
 
@@ -69,7 +68,7 @@ namespace ATframework3demo.TestCases
                 .ChooseBusiness(BusinessName)     //выбрать бизнес
                 .GetLinkStatistic(LinkMark)       //взять в лог количество посещений страницы
                 .GoToMarkedLink(LinkMark)         //загрузить  страницу с меткой отдельно в новой вкладке и закрыть
-                .GoToVisitStatistic()             //перейти(обновить) на страницу статистики для обновления данных
+                .RefreshPage()                     //обновить страницу статистики для обновления данных
                 .GetLinkStatistic(LinkMark);      //взять в лог количество посещений страницы(+1)
         }
 

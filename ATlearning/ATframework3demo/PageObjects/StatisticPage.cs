@@ -1,4 +1,5 @@
-﻿using atFrameWork2.SeleniumFramework;
+﻿using atFrameWork2.BaseFramework.LogTools;
+using atFrameWork2.SeleniumFramework;
 
 namespace atFrameWork2.PageObjects
 
@@ -13,9 +14,24 @@ namespace atFrameWork2.PageObjects
             return DisplayedLink.AssertTextContains(LinkAdress, "Ссылка не найдена", default);
         }
 
-        internal void IsUnicsChosen()
+        internal StatisticPage IsUnicsChosen(bool MustBeChecked)
         {
-            throw new NotImplementedException();
+            var Unics = new WebItem("//input[@name='unique_only']", "Чекбокс уникальные пользователи");
+            var IsUnicsCheked = Unics.Checked();
+            if (IsUnicsCheked != MustBeChecked)
+                Log.Error("Чекбокс не выбран, хотя должен быть выбран");
+            else
+            {
+                Log.Info("Чекбокс выбран");
+            };
+            return new StatisticPage();
         }
+
+       // internal StatisticPage RefreshPage()
+       // {
+       //     DriverActions.Refresh();
+       //     return new StatisticPage();
+      //  }
+
     }
 }
