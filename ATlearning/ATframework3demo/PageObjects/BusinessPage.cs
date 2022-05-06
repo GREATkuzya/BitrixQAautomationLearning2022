@@ -94,7 +94,8 @@ namespace atFrameWork2.PageObjects
             string ImgSrc = QRImg.GetAttribute("src");
             var TagItem = new WebItem($"//a[@href = '{LinkAdress}']/../..//div[@name='link-short-path']", "Короткая ссылка");
             string TagAdress = TagItem.GetAttribute("innerText");
-
+            
+            //Создание дополнительного драйвера для передачи кода base64 и получения картинки с qr-кодом в файл
             IWebDriver webDriver = DriverActions.GetNewDriver();
             string uri1 = "https://codebeautify.org/base64-to-image-converter";
             webDriver.Navigate().GoToUrl(uri1);
@@ -106,21 +107,21 @@ namespace atFrameWork2.PageObjects
             TextArea.SendKeys(ImgSrc, webDriver);
             GenerateButton.Click(webDriver);
             DownloadImage.Click(webDriver);
-            Thread.Sleep(3000);
-            webDriver.Quit();
-
+           
+            //Создание еще одного драйвера для передачи картинки на распознавание и получения результата считывания кода 
             IWebDriver webDriver1 = DriverActions.GetNewDriver();
             string uri2 = "https://decodeit.ru/qr/";
             webDriver1.Navigate().GoToUrl(uri2);
             var ImgLoad = new WebItem("//input[@id='qr_file']", "загрузить картинку с qr-кодом");
             var Submit = new WebItem("//input[@id='qr_decode_submit']", "Кнопка загрузки картинки");
-            
+            string FileAdr = "C:/Users/kuzya/Downloads/cbimage.png";
             ImgLoad.WaitElementDisplayed(5, webDriver1);
             Submit.WaitElementDisplayed(5, webDriver1);
-            ImgLoad.SendKeys("C:/Users/kuzya/Downloads/cbimage.png", webDriver1);
+            ImgLoad.SendKeys($"{FileAdr}", webDriver1);
             Submit.Click(webDriver1);
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);   //Просто чтобы наглядно показать, что распознавание кода прошло
             var Result = new WebItem("//div[@class='success']", "див с результатом");
+            Result.WaitElementDisplayed(5, webDriver1);
             string QrResult = Result.GetAttribute("innerText", webDriver1);
             if (Result.AssertTextContains(TagAdress, "Ссылка не найдена", webDriver1)) 
             {
@@ -130,6 +131,8 @@ namespace atFrameWork2.PageObjects
             {
                 Log.Error("QR-код не распознался");
             };
+            File.Delete($@"{FileAdr}");
+            webDriver.Quit();
             webDriver1.Quit();
             return new BusinessPage();
 

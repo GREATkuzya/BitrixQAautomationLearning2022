@@ -8,16 +8,16 @@ namespace ATframework3demo.TestCases
         {
             var caseCollection = new List<TestCase>();
             caseCollection.Add(new TestCase("Создание короткой ссылки", homePage => CreateLink(homePage)));
-            caseCollection.Add(new TestCase("Удаление ранее созданно короткой ссылки", homePage => DeleteLink(homePage)));
+            caseCollection.Add(new TestCase("Удаление ранее созданной короткой ссылки", homePage => DeleteLink(homePage)));
             caseCollection.Add(new TestCase("Просмотр количества переходов по ссылке(общее)", homePage => WatchStatsLink(homePage)));
-            caseCollection.Add(new TestCase("Создание QR-кода по короткой ссылке", homePage => QRCreateAndCheck(homePage)));
+            caseCollection.Add(new TestCase("Создание QR-кода по короткой ссылке, проверка соответствия текста в QR-коде, удаление следов", homePage => QRCreateAndCheck(homePage)));
             return caseCollection;
         }
 
         void CreateLink(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
-            string LinkName = "какое-то название";
-            string LinkAdress = "https://git-scm.com/book/ru/v2/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Git";
+            string LinkName = "Памятка по XPath";
+            string LinkAdress = "https://mellarius.ru/xpath";
             string BusinessName = "hello";
             homePage
                 .GoToBusiness()                                //войти в бизнесы
@@ -25,11 +25,6 @@ namespace ATframework3demo.TestCases
                 .GoToLinks()                                   //выбрать генерация ссылки
                 .LinkAdd(LinkName, LinkAdress)                 //создать ссылку
                 .IsLinkAdded(LinkName);                        //проверить, что ссылка создана
-
-
-
-
-
 
         }
 
@@ -42,7 +37,7 @@ namespace ATframework3demo.TestCases
                 .ChooseBusiness(BusinessName)         //выбрать бизнес
                 .GoToLinks()                          //выбрать генерацию ссылок
                 .DeleteLink(LinkName);                //Удалить интересующую ссылку
-                                                      //Проверить, что ссылки нет
+                                                      //Проверить, что ссылки нет(можно сделать)
 
 
         }
@@ -52,11 +47,11 @@ namespace ATframework3demo.TestCases
         {
             string LinkName = "какое-то название";
             string BusinessName = "hello";
-            homePage.GoToBusiness().ChooseBusiness(BusinessName).GoToLinksStatistic().GetLinkStatistic(LinkName);
-            //войти
-            //выбрать бизнес
-            //выбрать статистику переходов
-            //выбрать интересующую ссылку
+            homePage
+                .GoToBusiness()                      //войти 
+                .ChooseBusiness(BusinessName)        //выбрать бизнес
+                .GoToLinksStatistic()                //выбрать статистику переходов
+                .GetLinkStatistic(LinkName);         //получить статистику по нужному названию ссылки
         }
 
         void QRCreateAndCheck(atFrameWork2.PageObjects.PortalHomePage homePage)
@@ -69,7 +64,8 @@ namespace ATframework3demo.TestCases
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
                 .LinkAdd(LinkName, LinkAdress)                 //создать ссылку
-                .GenerateQR(LinkAdress);
+                .GenerateQR(LinkAdress)                        //Создать QR-код и проверить
+                .DeleteLink(LinkName);                         //Удалить ссылку
         }
 
 
