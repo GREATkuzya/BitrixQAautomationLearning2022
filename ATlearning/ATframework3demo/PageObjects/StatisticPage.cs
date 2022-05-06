@@ -27,11 +27,5 @@ namespace atFrameWork2.PageObjects
             return new StatisticPage();
         }
 
-       // internal StatisticPage RefreshPage()
-       // {
-       //     DriverActions.Refresh();
-       //     return new StatisticPage();
-      //  }
-
     }
 }

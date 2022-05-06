@@ -18,12 +18,13 @@ namespace ATframework3demo.TestCases
         {
             string LinkName = "Памятка по XPath";
             string LinkAdress = "https://mellarius.ru/xpath";
+            string LinkShortName = "";
             string BusinessName = "hello";
             homePage
                 .GoToBusiness()                                //войти в бизнесы
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
-                .LinkAdd(LinkName, LinkAdress)                 //создать ссылку
+                .LinkAdd(LinkName, LinkAdress, LinkShortName)                 //создать ссылку
                 .IsLinkAdded(LinkName);                        //проверить, что ссылка создана
 
         }
@@ -58,12 +59,13 @@ namespace ATframework3demo.TestCases
         {
             string LinkName = "проверка QR-кода";
             string LinkAdress = "https://www.sports.ru/baltika/calendar/";
+            string LinkShortName = "";
             string BusinessName = "hello";
             homePage
                 .GoToBusiness()                                //войти в бизнесы
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
-                .LinkAdd(LinkName, LinkAdress)                 //создать ссылку
+                .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
                 .GenerateQR(LinkAdress)                        //Создать QR-код и проверить
                 .DeleteLink(LinkName);                         //Удалить ссылку
         }

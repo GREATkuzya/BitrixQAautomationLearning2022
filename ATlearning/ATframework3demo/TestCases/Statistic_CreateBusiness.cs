@@ -9,29 +9,29 @@ namespace ATframework3demo.TestCases
             var caseCollection = new List<TestCase>();
             caseCollection.Add(new TestCase("Создание бизнеса, удаление его и выход из системы", homePage => CreateBusiness(homePage)));
             caseCollection.Add(new TestCase("Удаление ранее созданного бизнеса", homePage => DeleteBusiness(homePage)));
-            caseCollection.Add(new TestCase("Проверка создания метки для сайта", homePage => CheckMark(homePage)));
+            caseCollection.Add(new TestCase("Проверка метки для сайта для заранее созданного бизнеса", homePage => CheckMark(homePage)));
             return caseCollection;
         }
 
         void CreateBusiness(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             DateTime NewsTimeToPost = DateTime.Now;
-            string NewsTime = NewsTimeToPost.ToString();
+            string BusinessName = NewsTimeToPost.ToString();
 
 
             if (homePage
-                    .GoToBusiness()                //перейти на страницу бизнесов
-                    .AddBusiness(NewsTime)         //ввести имя бизнеса + нажать создать
-                    .IsBusinessAdded(NewsTime)     //проверить, что создался по названию
-                ) ;
+                    .GoToBusiness()                    //перейти на страницу бизнесов
+                    .AddBusiness(BusinessName)         //ввести имя бизнеса + нажать создать
+                    .IsBusinessAdded(BusinessName)     //проверить, что создался по названию
+                )
                 {homePage
                     .GoToBusiness()
-                    .DeleteBusiness(NewsTime);     //удалить этот бизнес
+                    .DeleteBusiness(BusinessName);     //удалить этот бизнес
             };
                 homePage
                     .GoToBusiness()
-                    .IsBusinessDeleted(NewsTime);  //Проверить, что бизнеса нет
-            homePage.GoToBusiness().LogOut();       //Выйти из системы
+                    .IsBusinessDeleted(BusinessName);  //Проверить, что бизнеса нет
+            homePage.GoToBusiness().LogOut();          //Выйти из системы
 
         }
 
@@ -40,11 +40,11 @@ namespace ATframework3demo.TestCases
         {
             string BusinessName = "для удаления";
             homePage
-                .GoToBusiness()                   //перейти на страницу бизнесов
-                .DeleteBusiness(BusinessName);    //удалить бизнес
+                .GoToBusiness()                        //перейти на страницу бизнесов
+                .DeleteBusiness(BusinessName);         //удалить бизнес
             homePage
-                .GoToBusiness()
-                .IsBusinessDeleted(BusinessName); //проверить, что бизнес удален
+                .GoToBusiness()                        //перейти на страницу бизнесов
+                .IsBusinessDeleted(BusinessName);      //проверить, что бизнес удален
 
         }
 
@@ -56,7 +56,7 @@ namespace ATframework3demo.TestCases
                 .GoToBusiness()                   //перейти на страницу бизнесов
                 .ChooseBusiness(BusinessName)     //выбрать бизнес
                 .GoToMarkPage()                   //перейти на страницу с меткой  
-                .GetMark();                       //получить метку
+                .GetMark();                       //получить метку(возможно изза тега <pre> не получается взять текст метки, но метка существует, тест проходит)
                 
         }
 

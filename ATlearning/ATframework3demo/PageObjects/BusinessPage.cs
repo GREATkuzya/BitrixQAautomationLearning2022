@@ -28,7 +28,7 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
         }
 
-        internal BusinessPage LinkAdd(string linkName, string linkAdress)
+        internal BusinessPage LinkAdd(string linkName, string linkAdress, string LinkShortName)
         {
             var LinkTagInput = new WebItem("//input[@name='tag']", "Поле ввода тэга ссылки");
             var LinkUrlInput = new WebItem("//input[@name='url']", "Поле ввода тэга ссылки");
@@ -36,6 +36,7 @@ namespace atFrameWork2.PageObjects
             var LinkSubmit = new WebItem("//input[@name='submit']", "Создание короткой ссылки");
             LinkTagInput.SendKeys(linkName);
             LinkUrlInput.SendKeys(linkAdress);
+            LinkShortInput.SendKeys(LinkShortName);
             LinkSubmit.Click();
             return new BusinessPage();
 
@@ -73,7 +74,7 @@ namespace atFrameWork2.PageObjects
             var MarkText = new WebItem("//div[@class='section-content']/pre", "Метка для вставки на страницу");
             MarkText.WaitElementDisplayed();
             //var MarkTextHtml = MarkText.InnerText().ToString();
-            string MarkTextHtml = MarkText.GetAttribute("innerText");
+            string MarkTextHtml = MarkText.GetAttribute("textContent");
             Log.Info($"{MarkTextHtml}");
             return new BusinessPage();
         }
@@ -187,9 +188,9 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
         }
 
-        internal bool IsBusinessDeleted(string NewsTime)
+        internal bool IsBusinessDeleted(string BusinessName)
         { 
-              var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]", "Проверка присутствия переменной в бизнесах");
+              var BusinessCheck = new WebItem($"//div[contains(text(), '{BusinessName}')]", "Проверка присутствия переменной в бизнесах");
             if
                 (
                 BusinessCheck.WaitElementDisplayed()
@@ -202,17 +203,16 @@ namespace atFrameWork2.PageObjects
             {
                 return true;
             }
-          //return  BusinessCheck.AssertTextContains(NewsTime, "бизнес не найден", default);
-           
+                    
         }
 
 
 
-        internal bool IsBusinessAdded(string NewsTime)
+        internal bool IsBusinessAdded(string BusinessName)
         {
-            var BusinessCheck = new WebItem($"//div[contains(text(), '{NewsTime}')]",
+            var BusinessCheck = new WebItem($"//div[contains(text(), '{BusinessName}')]",
                "Проверка присутствия переменной в бизнесах");
-            return BusinessCheck.AssertTextContains(NewsTime, "бизнес не найден", default);
+            return BusinessCheck.AssertTextContains(BusinessName, "бизнес не найден", default);
         }
 
        
@@ -231,9 +231,9 @@ namespace atFrameWork2.PageObjects
 
         }
 
-        internal BusinessPage DeleteBusiness(string NewsTime)
+        internal BusinessPage DeleteBusiness(string BusinessName)
         {
-            var DelCross = new WebItem($"//div[contains(text(), '{NewsTime}')]/..//*[@type='submit']","Крестик удаления бизнеса");
+            var DelCross = new WebItem($"//div[contains(text(), '{BusinessName}')]/..//*[@type='submit']","Крестик удаления бизнеса");
             DelCross.Click();
             var DelAgree = new WebItem("//button[@class='ui-btn ui-btn-success']/span[text() = 'Подтвердить']", "Кнопка подтвердить");
             DelAgree.WaitWhileElementDisplayed();
