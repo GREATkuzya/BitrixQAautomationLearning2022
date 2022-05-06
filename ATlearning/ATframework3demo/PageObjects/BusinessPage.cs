@@ -3,6 +3,7 @@ using atFrameWork2.SeleniumFramework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using QRCodeDecoderLibrary;
+using System.Drawing;
 
 namespace atFrameWork2.PageObjects
 {
@@ -138,6 +139,40 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
 
            
+        }
+
+        internal void GetQR(string LinkAdress)
+        {
+            var AddQR = new WebItem($"//a[@href = '{LinkAdress}']/../..//button[@name='generate-qr-btn']", "Кнопка генерации QR-кода");
+            AddQR.Click();
+            var QRImg = new WebItem($"//a[@href = '{LinkAdress}']/../..//img[@alt='Scan me!']", "Картинка QR-кода");
+            string ImgSrc = QRImg.GetAttribute("src");
+            var TagItem = new WebItem($"//a[@href = '{LinkAdress}']/../..//div[@name='link-short-path']", "Короткая ссылка");
+            string TagAdress = TagItem.GetAttribute("innerText");
+
+            //Создание дополнительного драйвера для передачи кода base64 и получения картинки с qr-кодом в файл
+            IWebDriver webDriver = DriverActions.GetNewDriver();
+            string uri1 = "https://codebeautify.org/base64-to-image-converter";
+            webDriver.Navigate().GoToUrl(uri1);
+            var TextArea = new WebItem("//textarea[@id='inputTextArea']", "Поле ввода Base64");
+            var GenerateButton = new WebItem("//button[@id='defaultAction']", "Кнопка Генерации картинки");
+            var DownloadImage = new WebItem("//button[@id='downloadImage2']", "Кнопка скачать");
+            TextArea.WaitElementDisplayed(5, webDriver);
+            GenerateButton.WaitElementDisplayed(5, webDriver);
+            TextArea.SendKeys(ImgSrc, webDriver);
+            GenerateButton.Click(webDriver);
+            DownloadImage.Click(webDriver);
+            //string FileAdr = "C:\Users\kuzya\Downloads\cbimage.png";
+           
+            Bitmap b = new Bitmap(@"C:\Users\kuzya\Downloads\cbimage.png", true);
+            // create QR Code decoder object
+           
+            QRDecoder Decoder = new QRDecoder();
+            // call image decoder method with file name
+           
+            //QRCodeResult[] ResultArray = Decoder.ImageDecoder(Bitmap b);
+
+
         }
 
         internal BusinessPage GetLinkStatistic(string linkName)
