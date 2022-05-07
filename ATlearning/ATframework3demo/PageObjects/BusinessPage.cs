@@ -1,4 +1,5 @@
-﻿using atFrameWork2.BaseFramework.LogTools;
+﻿using atFrameWork2.BaseFramework;
+using atFrameWork2.BaseFramework.LogTools;
 using atFrameWork2.SeleniumFramework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -42,6 +43,17 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
 
 
+        }
+
+        internal BusinessPage GoToRedirectedLink(string LinkName)
+        {
+            var TagItem = new WebItem($"//div[contains(text(), '{LinkName}')]/../../..//div[@name='link-short-path']", "Короткая ссылка");
+            string TagAdress = TagItem.GetAttribute("innerText");
+            IWebDriver webDriver = DriverActions.GetNewDriver();
+            webDriver.Navigate().GoToUrl(TagAdress);
+            Log.Info($"Произведен переход по созданной короткой: {TagAdress}");
+            webDriver.Quit();
+            return new BusinessPage();
         }
 
         internal BusinessPage DeleteLink(string linkName)
@@ -141,7 +153,51 @@ namespace atFrameWork2.PageObjects
            
         }
 
-        internal void GetQR(string LinkAdress)
+        internal BusinessPage CheckQRWithUI(string LinkName)
+        {
+            var TagItem = new WebItem($"//div[contains(text(), '{LinkName}')]/../../..//div[@name='link-short-path']", "Короткая ссылка");
+            string TagAdress = TagItem.GetAttribute("innerText");
+            //Создание еще одного драйвера для передачи картинки на распознавание и получения результата считывания кода 
+            IWebDriver webDriver1 = DriverActions.GetNewDriver();
+            string uri2 = "https://decodeit.ru/qr/";
+            webDriver1.Navigate().GoToUrl(uri2);
+            var ImgLoad = new WebItem("//input[@id='qr_file']", "загрузить картинку с qr-кодом");
+            var Submit = new WebItem("//input[@id='qr_decode_submit']", "Кнопка загрузки картинки");
+            string FileAdr = $"C:/Users/kuzya/Downloads/{LinkName}-qr.png";
+            ImgLoad.WaitElementDisplayed(5, webDriver1);
+            Submit.WaitElementDisplayed(5, webDriver1);
+            ImgLoad.SendKeys($"{FileAdr}", webDriver1);
+            Submit.Click(webDriver1);
+            Thread.Sleep(2000);   //Просто чтобы наглядно показать, что распознавание кода прошло
+            var Result = new WebItem("//div[@class='success']", "див с результатом");
+            Result.WaitElementDisplayed(5, webDriver1);
+            string QrResult = Result.GetAttribute("innerText", webDriver1);
+            if (Result.AssertTextContains(TagAdress, "Ссылка не найдена", webDriver1))
+            {
+                Log.Info($"QR-код распознался правильно ({TagAdress} - код первоначальный, {QrResult}- Код распознанный)");
+            }
+            else
+            {
+                Log.Error("QR-код не распознался");
+            };
+            File.Delete($@"{FileAdr}");
+           
+            webDriver1.Quit();
+            File.Delete($@"{FileAdr}");
+            return new BusinessPage();
+        }
+
+        internal BusinessPage GetQRImg(string LinkAdress)
+        {
+            var AddQR = new WebItem($"//a[@href = '{LinkAdress}']/../..//button[@name='generate-qr-btn']", "Кнопка генерации QR-кода");
+            AddQR.Click();
+            var QRLink = new WebItem($"//a[@href = '{LinkAdress}']/../..//a[@class='qr-code-download-link']", "Скачать QR-код");
+            QRLink.Click();
+
+            return new BusinessPage();
+        }
+
+        internal BusinessPage GetQR(string LinkAdress)
         {
             var AddQR = new WebItem($"//a[@href = '{LinkAdress}']/../..//button[@name='generate-qr-btn']", "Кнопка генерации QR-кода");
             AddQR.Click();
@@ -162,17 +218,31 @@ namespace atFrameWork2.PageObjects
             TextArea.SendKeys(ImgSrc, webDriver);
             GenerateButton.Click(webDriver);
             DownloadImage.Click(webDriver);
-            //string FileAdr = "C:\Users\kuzya\Downloads\cbimage.png";
-           
-            Bitmap b = new Bitmap(@"C:\Users\kuzya\Downloads\cbimage.png", true);
+            string FileAdr = "C:/Users/kuzya/Downloads/cbimage.png";
+
+            //Bitmap b = new Bitmap(@"C:\Users\kuzya\Downloads\cbimage.png", true);
             // create QR Code decoder object
-           
-            QRDecoder Decoder = new QRDecoder();
+            //QRDecoder Decoder = new QRDecoder();
             // call image decoder method with file name
-           
-            //QRCodeResult[] ResultArray = Decoder.ImageDecoder(Bitmap b);
 
+            //QRDecoder decoder = new QRDecoder();
+            //var res = decoder.ImageDecoder(new Bitmap("C:/Users/kuzya/Downloads/cbimage.png"));
+            //string link = System.Text.Encoding.UTF8.GetString(res[0]);
 
+            QRDecoder decoder = new QRDecoder();
+            //var res = decoder.ImageDecoder(new Bitmap("C:/Users/kuzya/Downloads/cbimage.png"));
+            //var res = decoder.ImageDecoder(new Bitmap Image.FromFile("C:/Users/kuzya/Downloads/cbimage.png"));
+            //string link = System.Text.Encoding.UTF8.GetString(res[0]);
+
+            //Log.Info($"{res}, {link}");
+            File.Delete($@"{FileAdr}");
+            webDriver.Quit();
+            
+
+            // QRCodeResult[]
+            //var ResultArray = Decoder.ImageDecoder(b);
+
+            return new BusinessPage();
         }
 
         internal BusinessPage GetLinkStatistic(string linkName)
@@ -210,7 +280,14 @@ namespace atFrameWork2.PageObjects
 
         internal StatisticPage RefreshPage()
         {
-            DriverActions.Refresh();
+            Thread.Sleep(3000);   //время, необходимое, чтобы данные добавилиль в базу данных и отобразилась обновленная статистика 
+            Waiters.WaitForCondition(() =>
+            {
+                DriverActions.Refresh();
+                var BusinessPageLogo = new WebItem("//img[@class='logo']", "Иконка бизнесов");
+                return BusinessPageLogo.WaitElementDisplayed(1);
+            }, 5, 30, "Ожидание обновления страницы");
+            
             return new StatisticPage();
         }
 
