@@ -60,6 +60,9 @@ namespace atFrameWork2.PageObjects
         {
             var LinkCross = new WebItem($"//div[contains(text(), '{linkName}')]/..//*[@type='submit']", "Кнопка удаления ссылки");
             LinkCross.Click();
+            var DelAgree = new WebItem("//button[@class='ui-btn ui-btn-success']/span[text() = 'Подтвердить']", "Кнопка подтвердить");
+            DelAgree.WaitElementDisplayed();
+            DelAgree.Click();
             LinkCross.WaitWhileElementDisplayed();
             return new BusinessPage();
 
@@ -313,6 +316,7 @@ namespace atFrameWork2.PageObjects
             }
          else 
             {
+                Log.Info("Бизнес отсутствует на странице");
                 return true;
             }
                     
@@ -348,8 +352,9 @@ namespace atFrameWork2.PageObjects
             var DelCross = new WebItem($"//div[contains(text(), '{BusinessName}')]/..//*[@type='submit']","Крестик удаления бизнеса");
             DelCross.Click();
             var DelAgree = new WebItem("//button[@class='ui-btn ui-btn-success']/span[text() = 'Подтвердить']", "Кнопка подтвердить");
-            DelAgree.WaitWhileElementDisplayed();
+            DelAgree.WaitElementDisplayed();
             DelAgree.Click();
+            DelCross.WaitWhileElementDisplayed();   
             return new BusinessPage();
         }
 
