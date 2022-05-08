@@ -8,10 +8,10 @@ namespace ATframework3demo.TestCases
         {
             var caseCollection = new List<TestCase>();
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу", homePage => WatchBusinessStat(homePage)));
-            caseCollection.Add(new TestCase("!Просмотр статистики по бизнесу по фильтру уникальные", homePage => WatchBusinessStatUnics(homePage)));
+            caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по фильтру уникальные", homePage => WatchBusinessStatUnics(homePage)));
             caseCollection.Add(new TestCase("Просмотр статистики по бизнесу по конкретной ссылке", homePage => WatchBusinessStatLink(homePage)));
             caseCollection.Add(new TestCase("Просмотр количества посещений конкретной ссылки", homePage => WatchLinkStatsNum(homePage)));
-            caseCollection.Add(new TestCase("!Просмотр статистики по ссылке, переход по ссылке с этой меткой и просмотр обновленной статистики", homePage => VisitAndCheck(homePage)));
+            caseCollection.Add(new TestCase("(!)Просмотр статистики по ссылке, переход по ссылке с этой меткой и просмотр обновленной статистики", homePage => VisitAndCheck(homePage)));
             return caseCollection;
         }
 
@@ -37,20 +37,19 @@ namespace ATframework3demo.TestCases
         void WatchBusinessStatLink(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             string BusinessName = "тест";
-            string LinkAdress = "file:///D:/index.html";
+            string LinkAdress = "file:///D:/index.html";    // должна быть подготовлена стианичка с тестовой меткой
             homePage
                 .GoToBusiness()                      //открыть страницу бизнесов
                 .ChooseBusiness(BusinessName)        //Выбрать бизнес
                 .ChoseLink(LinkAdress)               //Выбрать ссылку
                 .IsLinkChosen(LinkAdress);           //Проверить, что нужная ссылка выбрана
-            Thread.Sleep(1000);
         }
 
 
         void WatchLinkStatsNum(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             string BusinessName = "тест";
-            string LinkAdress = "file:///D:/index.html";
+            string LinkAdress = "file:///D:/index.html";    // должна быть подготовлена страничка с тестовой меткой
             homePage
                 .GoToBusiness()                      //открыть страницу бизнесов
                 .ChooseBusiness(BusinessName)        //Выбрать бизнес
@@ -59,19 +58,19 @@ namespace ATframework3demo.TestCases
 
 
         void VisitAndCheck(atFrameWork2.PageObjects.PortalHomePage homePage)
-        {
-            string BusinessName = "тест";
-            string LinkMark = "file:///D:/index.html";
+        {       
+            string BusinessName = "For Test Statistic";
+            string LinkMark = "file:///D:/TestStatistic.html";   // должна быть подготовлена страничка с тестовой меткой
             homePage
                 .GoToBusiness()                   //перейти на страницу бизнесов
                 .ChooseBusiness(BusinessName)     //выбрать бизнес
                 .GetLinkStatistic(LinkMark)       //взять в лог количество посещений страницы
                 .GoToMarkedLink(LinkMark)         //загрузить  страницу с меткой отдельно в новой вкладке и закрыть
                 .RefreshPage()                    //обновить страницу статистики для обновления данных
-                .GetLinkStatistic(LinkMark)      //взять в лог количество посещений страницы(+1)
-                .GoToMarkedLink(LinkMark)
-                .RefreshPage()
-                .GetLinkStatistic(LinkMark);
+                .GetLinkStatistic(LinkMark)       //взять в лог количество посещений страницы(+1)
+                .GoToMarkedLink(LinkMark)         //загрузить  страницу с меткой отдельно в новой вкладке и закрыть
+                .RefreshPage()                    //обновить страницу статистики для обновления данных
+                .GetLinkStatistic(LinkMark);      //взять в лог количество посещений страницы(+1)
         }
 
 

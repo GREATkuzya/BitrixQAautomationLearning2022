@@ -10,7 +10,7 @@ namespace ATframework3demo.TestCases
             caseCollection.Add(new TestCase("Создание бизнеса, удаление его и выход из системы", homePage => CreateBusiness(homePage)));
             caseCollection.Add(new TestCase("Удаление ранее созданного бизнеса", homePage => DeleteBusiness(homePage)));
             caseCollection.Add(new TestCase("Проверка метки для сайта для заранее созданного бизнеса", homePage => CheckMark(homePage)));
-            caseCollection.Add(new TestCase("Общий-кейс(Создание бизнеса => создание короткой ссылки => переход по созданной ссылке и просмотр статистики(3раза) => удаление ссылки => удаление бизнеса => выход из системы)", homePage => MasterCase(homePage)));
+            caseCollection.Add(new TestCase("(!)Общий-кейс(Создание бизнеса => создание короткой ссылки => переход по созданной ссылке и просмотр статистики(3раза) => удаление ссылки => удаление бизнеса => выход из системы)", homePage => MasterCase(homePage)));
             return caseCollection;
         }
 

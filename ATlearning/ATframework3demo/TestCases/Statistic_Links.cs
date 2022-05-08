@@ -11,8 +11,8 @@ namespace ATframework3demo.TestCases
             caseCollection.Add(new TestCase("Удаление ранее созданной короткой ссылки", homePage => DeleteLink(homePage)));
             caseCollection.Add(new TestCase("Просмотр количества переходов по ссылке(общее)", homePage => WatchStatsLink(homePage)));
             caseCollection.Add(new TestCase("Создание QR-кода по короткой ссылке, проверка соответствия текста в QR-коде через UI(2 этапа - старый способ, когда не было возможности скачать картинку), удаление следов", homePage => QRCreateAndCheck(homePage)));
-            caseCollection.Add(new TestCase("Проверка QR-кода с использованием библиотеки(пока не готово)", homePage => QRCheckWithLib(homePage)));
-            caseCollection.Add(new TestCase("!Проверка QR-кода скачать + проверка с UI ", homePage => QRCheck(homePage)));
+            caseCollection.Add(new TestCase("---Проверка QR-кода с использованием библиотеки(пока не готово)", homePage => QRCheckWithLib(homePage)));
+            caseCollection.Add(new TestCase("(!)Проверка QR-кода: создание бизнеса, ссылки, Qr-кода, скачивание + проверка результата считывания с UI, удаление следов(проверка, что все удалилось и выход из системы) ", homePage => QRCheck(homePage)));
             return caseCollection;
         }
 
@@ -82,7 +82,7 @@ namespace ATframework3demo.TestCases
                 .GoToBusiness()                                //войти в бизнесы
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
-                //.LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
+                .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
                 .GetQRImg(LinkAdress)                          //создает QR-код(клик по кнопке) и скачивает(клик по скачать)
                 .GetQR(LinkName);                              //преобразует через библиотеку
 
@@ -95,16 +95,24 @@ namespace ATframework3demo.TestCases
             string LinkName = "TestQrCode";
             string LinkAdress = "https://www.sports.ru/";
             string LinkShortName = "";
-            string BusinessName = "hello";
+            string BusinessName = DateTime.Now.ToString();
+
             homePage
                 .GoToBusiness()                                //войти в бизнесы
+                .AddBusiness(BusinessName)                     //Добавить бизнес
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
                 .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
                 .GetQRImg(LinkAdress)                          //создает QR-код(клик по кнопке) и скачивает(клик по скачать)
                 .CheckQRWithUI(LinkName)                       //Проверка QR c помощью UI
                 .DeleteLink(LinkName);                         //Удалить ссылку с qr кодом
-
+            homePage
+                .GoToBusiness()
+                .DeleteBusiness(BusinessName);                 //удалить этот бизнес
+            homePage
+                .GoToBusiness()
+                .IsBusinessDeleted(BusinessName);              //Проверить, что бизнеса нет
+            homePage.GoToBusiness().LogOut();                  //Выйти из системы
 
         }
 

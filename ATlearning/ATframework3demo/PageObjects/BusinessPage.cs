@@ -34,7 +34,7 @@ namespace atFrameWork2.PageObjects
         internal BusinessPage LinkAdd(string linkName, string linkAdress, string LinkShortName)
         {
             var LinkTagInput = new WebItem("//input[@name='tag']", "Поле ввода тэга ссылки");
-            var LinkUrlInput = new WebItem("//input[@name='url']", "Поле ввода тэга ссылки");
+            var LinkUrlInput = new WebItem("//input[@name='url']", "Поле ввода url ссылки");
             var LinkShortInput = new WebItem("//input[@name='short_path']", "Поле ввода тэга ссылки");
             var LinkSubmit = new WebItem("//input[@name='submit']", "Создание короткой ссылки");
             LinkTagInput.SendKeys(linkName);
@@ -52,7 +52,7 @@ namespace atFrameWork2.PageObjects
             string TagAdress = TagItem.GetAttribute("innerText");
             IWebDriver webDriver = DriverActions.GetNewDriver();
             webDriver.Navigate().GoToUrl(TagAdress);
-            Log.Info($"Произведен переход по созданной короткой: {TagAdress}");
+            Log.Info($"Произведен переход по созданной короткой ссылке: {TagAdress}");
             webDriver.Quit();
             return new BusinessPage();
         }
@@ -88,7 +88,7 @@ namespace atFrameWork2.PageObjects
 
         internal BusinessPage GetMark()
         {
-            var MarkText = new WebItem("//div[@class='section-content']/pre", "Метка для вставки на страницу");
+            var MarkText = new WebItem("//div[@class='section-content']/div", "Метка для вставки на страницу");
             MarkText.WaitElementDisplayed();
             //var MarkTextHtml = MarkText.InnerText().ToString();
             string MarkTextHtml = MarkText.GetAttribute("textContent");
@@ -195,7 +195,7 @@ namespace atFrameWork2.PageObjects
         {
             var AddQR = new WebItem($"//a[@href = '{LinkAdress}']/../..//button[@name='generate-qr-btn']", "Кнопка генерации QR-кода");
             AddQR.Click();
-            var QRLink = new WebItem($"//a[@href = '{LinkAdress}']/../..//a[@class='qr-code-download-link']", "Скачать QR-код");
+            var QRLink = new WebItem($"//a[@href = '{LinkAdress}']/../..//a[@class='qr-code-download-link ui-btn ui-btn-xs']", "Скачать QR-код");
             QRLink.Click();
 
             return new BusinessPage();
@@ -208,14 +208,15 @@ namespace atFrameWork2.PageObjects
         {
           string fileAdr = $"C:/Users/kuzya/Downloads/{fileName}-qr.png";
             QRDecoder QRcode = new QRDecoder();
-            Bitmap image1 = (Bitmap)Image.FromFile(@"C:\qr.png");
+
             //var res = decoder.ImageDecoder(image1);
-
-            QRCodeResult[] ResultArray = QRcode.ImageDecoder((Bitmap)Image.FromFile(fileAdr));
-            string TextResult = QRcode.ByteArrayToStr(ResultArray[0].DataArray);
-
+            // string TextResult = QRcode.ToString(image1);
             //string TextResult = QRCode.ByteArrayToStr(res[0]);
-            //string link = Encoding.UTF8.GetString(res[0]);
+            
+            Bitmap image1 = (Bitmap)Image.FromFile(@"C:\qr.png");
+            var res = QRcode.ImageDecoder(image1);
+            string link = Encoding.UTF8.GetString(res[0]);
+           
             Log.Info($"{res}, {link}");
             File.Delete($@"{fileAdr}");            
             return new BusinessPage();
