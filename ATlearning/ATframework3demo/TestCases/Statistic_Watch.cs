@@ -50,13 +50,11 @@ namespace ATframework3demo.TestCases
         void WatchLinkStatsNum(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
             string BusinessName = "тест";
-            //string LinkAdress = "file:///D:/index.html";
             string LinkAdress = "file:///D:/index.html";
             homePage
                 .GoToBusiness()                      //открыть страницу бизнесов
                 .ChooseBusiness(BusinessName)        //Выбрать бизнес
                 .GetWatchNum(LinkAdress);            //Посмотреть количество общих просмотров по ссылке
-            //Thread.Sleep(10000);
         }
 
 

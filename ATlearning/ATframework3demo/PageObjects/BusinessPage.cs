@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using QRCodeDecoderLibrary;
 using System.Drawing;
+using System.Text;
 
 namespace atFrameWork2.PageObjects
 {
@@ -200,51 +201,23 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
         }
 
-        internal BusinessPage GetQR(string LinkAdress)
+
+       
+
+        internal BusinessPage GetQR(string fileName)
         {
-            var AddQR = new WebItem($"//a[@href = '{LinkAdress}']/../..//button[@name='generate-qr-btn']", "Кнопка генерации QR-кода");
-            AddQR.Click();
-            var QRImg = new WebItem($"//a[@href = '{LinkAdress}']/../..//img[@alt='Scan me!']", "Картинка QR-кода");
-            string ImgSrc = QRImg.GetAttribute("src");
-            var TagItem = new WebItem($"//a[@href = '{LinkAdress}']/../..//div[@name='link-short-path']", "Короткая ссылка");
-            string TagAdress = TagItem.GetAttribute("innerText");
+          string fileAdr = $"C:/Users/kuzya/Downloads/{fileName}-qr.png";
+            QRDecoder QRcode = new QRDecoder();
+            Bitmap image1 = (Bitmap)Image.FromFile(@"C:\qr.png");
+            //var res = decoder.ImageDecoder(image1);
 
-            //Создание дополнительного драйвера для передачи кода base64 и получения картинки с qr-кодом в файл
-            IWebDriver webDriver = DriverActions.GetNewDriver();
-            string uri1 = "https://codebeautify.org/base64-to-image-converter";
-            webDriver.Navigate().GoToUrl(uri1);
-            var TextArea = new WebItem("//textarea[@id='inputTextArea']", "Поле ввода Base64");
-            var GenerateButton = new WebItem("//button[@id='defaultAction']", "Кнопка Генерации картинки");
-            var DownloadImage = new WebItem("//button[@id='downloadImage2']", "Кнопка скачать");
-            TextArea.WaitElementDisplayed(5, webDriver);
-            GenerateButton.WaitElementDisplayed(5, webDriver);
-            TextArea.SendKeys(ImgSrc, webDriver);
-            GenerateButton.Click(webDriver);
-            DownloadImage.Click(webDriver);
-            string FileAdr = "C:/Users/kuzya/Downloads/cbimage.png";
+            QRCodeResult[] ResultArray = QRcode.ImageDecoder((Bitmap)Image.FromFile(fileAdr));
+            string TextResult = QRcode.ByteArrayToStr(ResultArray[0].DataArray);
 
-            //Bitmap b = new Bitmap(@"C:\Users\kuzya\Downloads\cbimage.png", true);
-            // create QR Code decoder object
-            //QRDecoder Decoder = new QRDecoder();
-            // call image decoder method with file name
-
-            //QRDecoder decoder = new QRDecoder();
-            //var res = decoder.ImageDecoder(new Bitmap("C:/Users/kuzya/Downloads/cbimage.png"));
-            //string link = System.Text.Encoding.UTF8.GetString(res[0]);
-
-            QRDecoder decoder = new QRDecoder();
-            //var res = decoder.ImageDecoder(new Bitmap("C:/Users/kuzya/Downloads/cbimage.png"));
-            //var res = decoder.ImageDecoder(new Bitmap Image.FromFile("C:/Users/kuzya/Downloads/cbimage.png"));
-            //string link = System.Text.Encoding.UTF8.GetString(res[0]);
-
-            //Log.Info($"{res}, {link}");
-            File.Delete($@"{FileAdr}");
-            webDriver.Quit();
-            
-
-            // QRCodeResult[]
-            //var ResultArray = Decoder.ImageDecoder(b);
-
+            //string TextResult = QRCode.ByteArrayToStr(res[0]);
+            //string link = Encoding.UTF8.GetString(res[0]);
+            Log.Info($"{res}, {link}");
+            File.Delete($@"{fileAdr}");            
             return new BusinessPage();
         }
 

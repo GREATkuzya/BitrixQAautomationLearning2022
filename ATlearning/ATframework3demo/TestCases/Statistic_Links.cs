@@ -10,7 +10,7 @@ namespace ATframework3demo.TestCases
             caseCollection.Add(new TestCase("Создание короткой ссылки", homePage => CreateLink(homePage)));
             caseCollection.Add(new TestCase("Удаление ранее созданной короткой ссылки", homePage => DeleteLink(homePage)));
             caseCollection.Add(new TestCase("Просмотр количества переходов по ссылке(общее)", homePage => WatchStatsLink(homePage)));
-            caseCollection.Add(new TestCase("Создание QR-кода по короткой ссылке, проверка соответствия текста в QR-коде через UI(2 этапа), удаление следов", homePage => QRCreateAndCheck(homePage)));
+            caseCollection.Add(new TestCase("Создание QR-кода по короткой ссылке, проверка соответствия текста в QR-коде через UI(2 этапа - старый способ, когда не было возможности скачать картинку), удаление следов", homePage => QRCreateAndCheck(homePage)));
             caseCollection.Add(new TestCase("Проверка QR-кода с использованием библиотеки(пока не готово)", homePage => QRCheckWithLib(homePage)));
             caseCollection.Add(new TestCase("!Проверка QR-кода скачать + проверка с UI ", homePage => QRCheck(homePage)));
             return caseCollection;
@@ -82,10 +82,11 @@ namespace ATframework3demo.TestCases
                 .GoToBusiness()                                //войти в бизнесы
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
-                .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
-                .GetQR(LinkAdress);                              //создает QR-код(клик по кнопке)
+                //.LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
+                .GetQRImg(LinkAdress)                          //создает QR-код(клик по кнопке) и скачивает(клик по скачать)
+                .GetQR(LinkName);                              //преобразует через библиотеку
 
-                //.GenerateQR(LinkAdress)                        //Создать QR-код и проверить
+             
                 //.DeleteLink(LinkName);                         //Удалить ссылку
         }
 
