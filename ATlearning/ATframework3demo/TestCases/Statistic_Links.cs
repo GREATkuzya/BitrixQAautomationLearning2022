@@ -74,17 +74,18 @@ namespace ATframework3demo.TestCases
 
         void QRCheckWithLib(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
-            string LinkName = "QR-код проверка";
+            string LinkName = "QR";
             string LinkAdress = "https://www.sports.ru/";
             string LinkShortName = "";
             string BusinessName = "hello";
+            string FileAdr = $"C:/Users/kuzya/Downloads/{LinkName}-qr.png";
             homePage
                 .GoToBusiness()                                //войти в бизнесы
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
                 .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
                 .GetQRImg(LinkAdress)                          //создает QR-код(клик по кнопке) и скачивает(клик по скачать)
-                .GetQR(LinkName);                              //преобразует через библиотеку
+                .GetQR(LinkName, FileAdr);                              //преобразует через библиотеку
 
              
                 //.DeleteLink(LinkName);                         //Удалить ссылку
@@ -96,6 +97,8 @@ namespace ATframework3demo.TestCases
             string LinkAdress = "https://www.sports.ru/";
             string LinkShortName = "";
             string BusinessName = DateTime.Now.ToString();
+            string FileAdr = $"C:/Users/kuzya/Downloads/{LinkName}-qr.png";   //адрес для скачивания картинки, завязан на профиль пользовалеля
+                                                                              //и настройки загрузки по умолчанию для хрома
 
             homePage
                 .GoToBusiness()                                //войти в бизнесы
@@ -104,7 +107,7 @@ namespace ATframework3demo.TestCases
                 .GoToLinks()                                   //выбрать генерация ссылки
                 .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
                 .GetQRImg(LinkAdress)                          //создает QR-код(клик по кнопке) и скачивает(клик по скачать)
-                .CheckQRWithUI(LinkName)                       //Проверка QR c помощью UI
+                .CheckQRWithUI(LinkName, FileAdr)                       //Проверка QR c помощью UI
                 .DeleteLink(LinkName);                         //Удалить ссылку с qr кодом
             homePage
                 .GoToBusiness()
