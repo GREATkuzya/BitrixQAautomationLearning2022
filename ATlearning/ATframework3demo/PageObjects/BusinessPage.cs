@@ -103,7 +103,7 @@ namespace atFrameWork2.PageObjects
             return new BusinessPage();
         }
 
-        internal BusinessPage GenerateQR(string LinkAdress)
+        internal BusinessPage GenerateQR(string LinkAdress, string FileAdr)
         {
             var AddQR = new WebItem($"//a[@href = '{LinkAdress}']/../..//button[@name='generate-qr-btn']", "Кнопка генерации QR-кода");
             AddQR.Click();
@@ -131,7 +131,6 @@ namespace atFrameWork2.PageObjects
             webDriver1.Navigate().GoToUrl(uri2);
             var ImgLoad = new WebItem("//input[@id='qr_file']", "загрузить картинку с qr-кодом");
             var Submit = new WebItem("//input[@id='qr_decode_submit']", "Кнопка загрузки картинки");
-            string FileAdr = "C:/Users/kuzya/Downloads/cbimage.png";
             ImgLoad.WaitElementDisplayed(5, webDriver1);
             Submit.WaitElementDisplayed(5, webDriver1);
             ImgLoad.SendKeys($"{FileAdr}", webDriver1);
@@ -171,7 +170,7 @@ namespace atFrameWork2.PageObjects
             ImgLoad.SendKeys($"{FileAdr}", webDriver1);
             Submit.Click(webDriver1);
             Thread.Sleep(2000);   //Просто чтобы наглядно показать, что распознавание кода прошло
-            var Result = new WebItem("//div[@class='success']", "див с результатом");
+            var Result = new WebItem("//div[@class='result']", "див с результатом");
             Result.WaitElementDisplayed(5, webDriver1);
             string QrResult = Result.GetAttribute("innerText", webDriver1);
             if (Result.AssertTextContains(TagAdress, "Ссылка не найдена", webDriver1))
@@ -183,9 +182,7 @@ namespace atFrameWork2.PageObjects
                 Log.Error("QR-код не распознался");
             };
             File.Delete($@"{FileAdr}");
-           
             webDriver1.Quit();
-            File.Delete($@"{FileAdr}");
             return new BusinessPage();
         }
 
@@ -202,10 +199,10 @@ namespace atFrameWork2.PageObjects
 
        
 
-        internal BusinessPage GetQR(string fileName, string fileAdr)
+        internal BusinessPage GetQR(string fileAdr)
         {
-          
-            QRDecoder QRcode = new QRDecoder();
+
+
 
             //var res = decoder.ImageDecoder(image1);
             // string TextResult = QRcode.ToString(image1);
@@ -213,7 +210,9 @@ namespace atFrameWork2.PageObjects
 
             //Bitmap image1 = (Bitmap)Image.FromFile(@"C:\qr.png");
             //var res = QRcode.ImageDecoder(image1);
-            var res = QRcode.ImageDecoder(new Bitmap(@"C:\qr.png"));
+            
+            QRDecoder QRcode = new QRDecoder();
+            var res = QRcode.ImageDecoder(new Bitmap("C:\\qr.png", false));
             var link = System.Text.Encoding.UTF8.GetString(res[0]);
 
             //string link = Encoding.UTF8.GetString(res[0]);

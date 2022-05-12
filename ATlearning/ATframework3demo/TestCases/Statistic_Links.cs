@@ -63,29 +63,31 @@ namespace ATframework3demo.TestCases
             string LinkAdress = "https://www.sports.ru/baltika/calendar/";
             string LinkShortName = "";
             string BusinessName = "hello";
+            string FileAdr = "C:/Users/kuzya/Downloads/cbimage.png";   //адрес скачиваемой картинки
             homePage
                 .GoToBusiness()                                //войти в бизнесы
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
                 .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
-                .GenerateQR(LinkAdress)                        //Создать QR-код и проверить
+                .GenerateQR(LinkAdress, FileAdr)                        //Создать QR-код и проверить
                 .DeleteLink(LinkName);                         //Удалить ссылку
         }
 
         void QRCheckWithLib(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
-            string LinkName = "QR";
+            string LinkName = "QR-check";
             string LinkAdress = "https://www.sports.ru/";
             string LinkShortName = "";
             string BusinessName = "hello";
-            string FileAdr = $"C:/Users/kuzya/Downloads/{LinkName}-qr.png";
+            string FileAdr = $"C:/Users/kuzya/Downloads/{LinkName}-qr.png";   //адрес скачиваемой картинки
+            
             homePage
                 .GoToBusiness()                                //войти в бизнесы
                 .ChooseBusiness(BusinessName)                  //выбрать бизнес
                 .GoToLinks()                                   //выбрать генерация ссылки
                 .LinkAdd(LinkName, LinkAdress, LinkShortName)  //создать ссылку
                 .GetQRImg(LinkAdress)                          //создает QR-код(клик по кнопке) и скачивает(клик по скачать)
-                .GetQR(LinkName, FileAdr);                              //преобразует через библиотеку
+                .GetQR(FileAdr);                              //преобразует через библиотеку
 
              
                 //.DeleteLink(LinkName);                         //Удалить ссылку
@@ -93,11 +95,11 @@ namespace ATframework3demo.TestCases
 
         void QRCheck(atFrameWork2.PageObjects.PortalHomePage homePage)
         {
-            string LinkName = "TestQrCode";
+            string LinkName = "спортс";
             string LinkAdress = "https://www.sports.ru/";
             string LinkShortName = "";
             string BusinessName = DateTime.Now.ToString();
-            string FileAdr = $"C:/Users/kuzya/Downloads/{LinkName}-qr.png";   //адрес для скачивания картинки, завязан на профиль пользовалеля
+            string FileAdr = $"C:/Users/kuzya/Downloads/{LinkName}-qr.png";   //адрес скачиваемой картинки, завязан на профиль пользовалеля
                                                                               //и настройки загрузки по умолчанию для хрома
 
             homePage
