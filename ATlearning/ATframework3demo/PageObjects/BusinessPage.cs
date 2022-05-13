@@ -136,7 +136,7 @@ namespace atFrameWork2.PageObjects
             ImgLoad.SendKeys($"{FileAdr}", webDriver1);
             Submit.Click(webDriver1);
             Thread.Sleep(2000);   //Просто чтобы наглядно показать, что распознавание кода прошло
-            var Result = new WebItem("//div[@class='success']", "див с результатом");
+            var Result = new WebItem("//div[@class='result']", "див с результатом");
             Result.WaitElementDisplayed(5, webDriver1);
             string QrResult = Result.GetAttribute("innerText", webDriver1);
             if (Result.AssertTextContains(TagAdress, "Ссылка не найдена", webDriver1)) 
